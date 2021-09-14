@@ -1,0 +1,25 @@
+{
+  "name": "myfinancesbot-artcc",
+  "version": "1.0.0",
+  "description": "Telegram bot to add financial assets and liabilities and keep track of your personal finances.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArtCC/myfinancesbot-artcc.git"
+  },
+  "author": "Arturo Carretero Calvo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ArtCC/myfinancesbot-artcc/issues"
+  },
+  "homepage": "https://github.com/ArtCC/myfinancesbot-artcc#readme",
+  "dependencies": {
+    "axios": "^0.21.4",
+    "dotenv": "^10.0.0",
+    "node-telegram-bot-api": "^0.54.0",
+    "pg": "^8.7.1"
+  }
+}
