@@ -1,7 +1,6 @@
 require("dotenv").config();
 
 const TelegramBot = require("node-telegram-bot-api");
-
 const axios = require('axios');
 const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, {
      polling: true
@@ -17,9 +16,9 @@ const helpers = require('./src/helpers');
 bot.onText(/^\/acciones/, (msg) => {
      let chatId = msg.chat.id;
 
-     var buttonData = []               
-     buttonData.push({text: constants.totalRevenueOptionText, callback_data: constants.totalRevenueOptionText}); 
-     buttonData.push({text: constants.cancelText, callback_data: constants.cancelText});
+     var buttonData = []
+     buttonData.push({ text: constants.totalRevenueOptionText, callback_data: constants.totalRevenueOptionText });
+     buttonData.push({ text: constants.cancelText, callback_data: constants.cancelText });
 
      let buttons = {
           reply_markup: {
@@ -28,7 +27,7 @@ bot.onText(/^\/acciones/, (msg) => {
                ]
           }
      }
-     
+
      bot.sendMessage(chatId, constants.actionsTitleText, buttons);
 });
 
@@ -74,7 +73,7 @@ bot.onText(/^\/start/, (msg) => {
      let chatId = msg.chat.id;
      let name = msg.from.first_name;
      let message = `¡Hola ${name}!${constants.startText}`;
-     
+
      bot.sendMessage(chatId, message);
 });
 
@@ -94,7 +93,7 @@ bot.on('callback_query', function onCallbackQuery(action) {
                     let revenue = {
                          amount: obj.revenue
                     };
-                    
+
                     bot.sendMessage(chatId, `Tus ingresos totales son ${helpers.formatter.format(revenue.amount)} €.`);
                }
           }).catch(function (err) {
@@ -108,9 +107,9 @@ bot.on('callback_query', function onCallbackQuery(action) {
 /**
  * Scheduler functions.
  */
+/**
 cron.schedule('* * * * *', () => {
-     log("Action every 1 minute.");
-});
+});*/
 
 /**
  * Helper functions.
@@ -123,5 +122,5 @@ function sendErrorMessageToBot(chatId) {
  * Logs.
  */
 function log(message) {
-     // console.log(message);
+     console.log(message);
 };
