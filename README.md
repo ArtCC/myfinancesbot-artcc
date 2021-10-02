@@ -11,7 +11,7 @@
 <p>donar - Puedes apoyar económicamente el proyecto. ¡Gracias!</p>
 <p>ingresos - Añade o actualiza tus ingresos totales. Ej: /ingresos 1550.50</p>
 <p>start - Te muestro información básica</p>
-<p>suscripcion - Añade una suscripción mensual o anual que tengas contratada. Ej: /suscripcion netflix 16.99 mensual</p>
+<p>suscripcion - Añade una suscripción mensual o anual que tengas contratada. Ej: /suscripcion netflix 16.99 mensual 01/12/2021</p>
 
 ### Database in Heroku Postgres:
 
@@ -21,7 +21,8 @@ CREATE TABLE SUSCRIPTION(
    USER_ID INT NOT NULL,
    NAME TEXT NOT NULL,
    PRICE REAL NOT NULL,
-   TYPE TEXT NOT NULL
+   TYPE TEXT NOT NULL,
+   DATE TEXT NOT NULL
 );
 ```
 

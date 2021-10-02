@@ -11,9 +11,9 @@ const pool = new Pool({
 });
 const util = require('util');
 
-function addSuscription(userId, name, price, type, languageCode) {
+function addSuscription(userId, name, price, type, date, languageCode) {
      return new Promise(function (resolve, reject) {
-          let insertQuery = `insert into suscription (user_id,name,price,type) values (${userId},'${name}',${price},'${type}');`;
+          let insertQuery = `insert into suscription (user_id,name,price,type,date) values (${userId},'${name}',${price},'${type}','${date}');`;
 
           queryDatabase(insertQuery).then(function (result) {
                helpers.log(result);
