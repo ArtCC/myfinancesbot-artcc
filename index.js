@@ -4,6 +4,7 @@ const TelegramBot = require("node-telegram-bot-api");
 const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, {
      polling: true
 });
+const constants = require('./constants');
 const cron = require('node-cron');
 const database = require('./src/database');
 const helpers = require('./src/helpers');
