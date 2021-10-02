@@ -1,5 +1,6 @@
 {
-    "helloText": "¡Hola %s!\nEscribe la barra / para ver en qué te puedo ayudar.\n\nMás información: https://github.com/ArtCC/myfinancesbot-artcc",
+    "sendInfoText": "¡Hola %s!%s",
+    "helloMessageText": "\nEscribe la barra / para ver en qué te puedo ayudar.\n\nMás información: https://github.com/ArtCC/myfinancesbot-artcc",
     "revenueUpdateText": "Tus ingresos totales han sido actualizados correctamente.",
     "revenueInsertText": "Tus ingresos totales han sido añadidos correctamente.",
     "totalRevenueText": "Tus ingresos totales son %s €.",
@@ -9,5 +10,15 @@
     "totalRevenueOptionText": "Ingresos",
     "zeroRevenueText": "Tus ingresos totales son 0 €.",
     "cancelText": "Cancelar",
-    "cancelActionsText": "De acuerdo."
+    "cancelActionsText": "De acuerdo.",
+    "paymentTitleText": "Gracias por apoyar el proyecto",
+    "paymentDescriptionText": "Con tu apoyo económico podremos mejorar el servidor donde se aloja el bot para que más usuarios puedan utilizarlo y dar más funcionalidad al mismo para que sea el mejor bot de Telegram sobre finanzas personales.",
+    "paymentPayloadText": "myfinancesbot-artcc",
+    "paymentStartParameterText": "",
+    "paymentCurrencyText": "EUR",
+    "paymentPriceLabelText": "Donación",
+    "coinPaymentTitleText": "Gracias por apoyar el proyecto. ¿Cuánto quieres donar?",
+    "oneCoinText": "1 €",
+    "threeCoinText": "3 €",
+    "fiveCoinText": "5 €"
 }

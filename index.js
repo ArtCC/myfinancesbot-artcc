@@ -48,6 +48,37 @@ bot.onText(/^\/borrar/, (msg) => {
      });
 });
 
+bot.onText(/^\/donar/, (msg) => {
+     let languageCode = msg.from.language_code;
+     let chatId = msg.chat.id;
+     let buttons = {
+          reply_markup: {
+               inline_keyboard: [
+                    [
+                         {
+                              text: localization.getText("oneCoinText", languageCode),
+                              callback_data: localization.getText("oneCoinText", languageCode)
+                         },
+                         {
+                              text: localization.getText("threeCoinText", languageCode),
+                              callback_data: localization.getText("threeCoinText", languageCode)
+                         },
+                         {
+                              text: localization.getText("fiveCoinText", languageCode),
+                              callback_data: localization.getText("fiveCoinText", languageCode)
+                         },
+                         {
+                              text: localization.getText("cancelText", languageCode),
+                              callback_data: localization.getText("cancelText", languageCode)
+                         }
+                    ]
+               ]
+          }
+     };
+
+     bot.sendMessage(chatId, localization.getText("coinPaymentTitleText", languageCode), buttons);
+});
+
 bot.onText(/^\/ingresos (.+)/, (msg, match) => {
      let languageCode = msg.from.language_code;
      let chatId = msg.chat.id;
@@ -67,9 +98,8 @@ bot.onText(/^\/start/, (msg) => {
      let languageCode = msg.from.language_code;
      let chatId = msg.chat.id;
      let name = msg.from.first_name;
-     let message = util.format(localization.getText("helloText", languageCode), name);
 
-     bot.sendMessage(chatId, message);
+     sendInfo(chatId, name, languageCode);
 });
 
 bot.on('callback_query', function onCallbackQuery(action) {
@@ -87,11 +117,68 @@ bot.on('callback_query', function onCallbackQuery(action) {
           });
      } else if (data == localization.getText("cancelText", languageCode)) {
           bot.sendMessage(chatId, localization.getText("cancelActionsText", languageCode));
+     } else if (data == localization.getText("oneCoinText", languageCode)) {
+          paymentWithAmount(chatId, 100, languageCode);
+     } else if (data == localization.getText("threeCoinText", languageCode)) {
+          paymentWithAmount(chatId, 300, languageCode);
+     } else if (data == localization.getText("fiveCoinText", languageCode)) {
+          paymentWithAmount(chatId, 500, languageCode);
      }
 });
 
+bot.on('pre_checkout_query', function onCallbackQuery(result) {
+     helpers.log(result)
+     bot.answerPreCheckoutQuery(result.id, true);
+});
+
+bot.on('shipping_query', function onCallbackQuery(result) {
+     helpers.log(result)
+     bot.answerShippingQuery(result.id, false);
+});
+
+bot.on('successful_payment', function onCallbackQuery(result) {
+     helpers.log(result)
+});
+
+function paymentWithAmount(chatId, amount, languageCode) {
+     let title = localization.getText("paymentTitleText", languageCode);
+     let description = localization.getText("paymentDescriptionText", languageCode);
+     let payload = localization.getText("paymentPayloadText", languageCode);
+     let providerToken = process.env.STRIPE_PAYMENT_TOKEN;
+     let startParameter = localization.getText("paymentStartParameterText", languageCode);
+     let currency = localization.getText("paymentCurrencyText", languageCode);
+     let prices = [{ "label": localization.getText("paymentPriceLabelText", languageCode), "amount": amount }];
+     let options = {
+          photo_url: constants.donatePhotoUrl,
+          photo_width: 480,
+          photo_height: 320,
+          is_flexible: false,
+          need_shipping_address: false
+     }
+
+     bot.sendInvoice(chatId, title, description, payload, providerToken, startParameter, currency, prices, options).then(function (result) {
+          helpers.log(result);
+     }).catch(function (err) {
+          helpers.log(err);
+     });
+};
+
 function sendErrorMessageToBot(chatId, languageCode) {
      bot.sendMessage(chatId, localization.getText("generalErrorText", languageCode));
+};
+
+function sendInfo(chatId, name, languageCode) {
+     let helloText = util.format(localization.getText("sendInfoText", languageCode), name);
+     let infoText = localization.getText("helloMessageText", languageCode);
+     var message = `${helloText}${infoText}`;
+
+     bot.getMyCommands().then(function (info) {
+          for (let obj of info) {
+               message += `/${obj.command} - ${obj.description}\n`;
+          }
+
+          bot.sendMessage(chatId, message);
+     });
 };
 
 /**
