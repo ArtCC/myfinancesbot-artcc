@@ -78,14 +78,14 @@ bot.on('callback_query', function onCallbackQuery(action) {
      let userId = action.from.id;
      let data = action.data;
 
-     if (data == localization.getText("totalRevenueOptionText", languageCode)) {
+     if (data === localization.getText("totalRevenueOptionText", languageCode)) {
           database.getTotalRevenue(userId, languageCode).then(function (message) {
                bot.sendMessage(chatId, message);
           }).catch(function (err) {
                helpers.log(err);
                sendErrorMessageToBot(chatId, languageCode);
           });
-     } else if (data == localization.getText("cancelText", languageCode)) {
+     } else if (data === localization.getText("cancelText", languageCode)) {
           bot.sendMessage(chatId, localization.getText("cancelActionsText", languageCode));
      }
 });
