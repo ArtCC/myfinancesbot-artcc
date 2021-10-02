@@ -73,19 +73,19 @@ bot.onText(/^\/start/, (msg) => {
 });
 
 bot.on('callback_query', function onCallbackQuery(action) {
-     let languageCode = msg.from.language_code;
+     let languageCode = action.from.language_code;
      let chatId = action.message.chat.id;
      let userId = action.from.id;
      let data = action.data;
 
-     if (data === localization.getText("totalRevenueOptionText", languageCode)) {
+     if (data == localization.getText("totalRevenueOptionText", languageCode)) {
           database.getTotalRevenue(userId, languageCode).then(function (message) {
                bot.sendMessage(chatId, message);
           }).catch(function (err) {
                helpers.log(err);
                sendErrorMessageToBot(chatId, languageCode);
           });
-     } else if (data === localization.getText("cancelText", languageCode)) {
+     } else if (data == localization.getText("cancelText", languageCode)) {
           bot.sendMessage(chatId, localization.getText("cancelActionsText", languageCode));
      }
 });
