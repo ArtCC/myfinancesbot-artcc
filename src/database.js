@@ -11,6 +11,20 @@ const pool = new Pool({
 });
 const util = require('util');
 
+function addSuscription(userId, name, price, type, languageCode) {
+     return new Promise(function (resolve, reject) {
+          let insertQuery = `insert into suscription (user_id,name,price,type) values (${userId},'${name}',${price},${type});`;
+
+          queryDatabase(insertQuery).then(function (result) {
+               helpers.log(result);
+               resolve(util.format(localization.getText("addSuscriptionText", languageCode), type, name, price));
+          }).catch(function (err) {
+               helpers.log(err);
+               reject(err);
+          });
+     });
+};
+
 function addTotalRevenue(userId, name, revenue, languageCode) {
      return new Promise(function (resolve, reject) {
           let createdAt = new Date().getTime();
@@ -91,6 +105,7 @@ function queryDatabase(query) {
      });
 };
 
+module.exports.addSuscription = addSuscription;
 module.exports.addTotalRevenue = addTotalRevenue;
 module.exports.deleteUser = deleteUser;
 module.exports.getTotalRevenue = getTotalRevenue;

@@ -20,5 +20,6 @@
     "coinPaymentTitleText": "Gracias por apoyar el proyecto. ¿Cuánto quieres donar?",
     "oneCoinText": "1 €",
     "threeCoinText": "3 €",
-    "fiveCoinText": "5 €"
+    "fiveCoinText": "5 €",
+    "addSuscriptionText": "Tu suscripción %s a %s por %s € ha sido añadida correctamente"
 }

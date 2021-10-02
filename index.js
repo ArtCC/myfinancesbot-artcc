@@ -103,6 +103,23 @@ bot.onText(/^\/start/, (msg) => {
      sendInfo(chatId, name, languageCode);
 });
 
+bot.onText(/^\/suscripcion (.+)/, (msg, match) => {
+     let languageCode = msg.from.language_code;
+     let chatId = msg.chat.id;
+     let userId = msg.from.id;
+     let data = match[1].split(" ");
+     let suscriptionName = data[0];
+     let suscriptionPrice = data[1];
+     let suscriptionType = data[2];
+
+     database.addSuscription(userId, suscriptionName, suscriptionPrice, suscriptionType).then(function (message) {
+          bot.sendMessage(chatId, message);
+     }).catch(function (err) {
+          helpers.log(err);
+          sendErrorMessageToBot(chatId, languageCode);
+     });
+});
+
 bot.on('callback_query', function onCallbackQuery(action) {
      let languageCode = action.from.language_code;
      let chatId = action.message.chat.id;
