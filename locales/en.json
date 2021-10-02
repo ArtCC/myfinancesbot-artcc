@@ -1,6 +1,6 @@
 {
-    "sendInfoText": "¡Hola %s!%s",
-    "helloMessageText": "\nEscribe la barra / para ver en qué te puedo ayudar.\n\nMás información: https://github.com/ArtCC/myfinancesbot-artcc",
+    "sendInfoText": "¡Hola %s!",
+    "helloMessageText": "\n\nEscribe la barra / para ver en qué te puedo ayudar.\n\nMás información: https://github.com/ArtCC/myfinancesbot-artcc\n\n",
     "revenueUpdateText": "Tus ingresos totales han sido actualizados correctamente.",
     "revenueInsertText": "Tus ingresos totales han sido añadidos correctamente.",
     "totalRevenueText": "Tus ingresos totales son %s €.",
