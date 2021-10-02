@@ -13,7 +13,7 @@ const util = require('util');
 
 function addSuscription(userId, name, price, type, languageCode) {
      return new Promise(function (resolve, reject) {
-          let insertQuery = `insert into suscription (user_id,name,price,type) values (${userId},'${name}',${price},${type});`;
+          let insertQuery = `insert into suscription (user_id,name,price,type) values (${userId},'${name}',${price},'${type}');`;
 
           queryDatabase(insertQuery).then(function (result) {
                helpers.log(result);
