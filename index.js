@@ -1,24 +1,28 @@
 require("dotenv").config();
 
 const TelegramBot = require("node-telegram-bot-api");
-const axios = require('axios');
 const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, {
      polling: true
 });
-const constants = require('./src/constants');
 const cron = require('node-cron');
 const database = require('./src/database');
 const helpers = require('./src/helpers');
+const localization = require('./src/localization');
+const util = require('util');
 
-/**
- * Telegram bot functions.
- */
 bot.onText(/^\/acciones/, (msg) => {
+     let languageCode = msg.from.language_code;
      let chatId = msg.chat.id;
 
      var buttonData = []
-     buttonData.push({ text: constants.totalRevenueOptionText, callback_data: constants.totalRevenueOptionText });
-     buttonData.push({ text: constants.cancelText, callback_data: constants.cancelText });
+     buttonData.push({
+          text: localization.getText("totalRevenueOptionText", languageCode),
+          callback_data: localization.getText("totalRevenueOptionText", languageCode)
+     });
+     buttonData.push({
+          text: localization.getText("cancelText", languageCode),
+          callback_data: localization.getText("cancelText", languageCode)
+     });
 
      let buttons = {
           reply_markup: {
@@ -28,99 +32,68 @@ bot.onText(/^\/acciones/, (msg) => {
           }
      }
 
-     bot.sendMessage(chatId, constants.actionsTitleText, buttons);
+     bot.sendMessage(chatId, localization.getText("actionsTitleText", languageCode), buttons);
 });
 
 bot.onText(/^\/borrar/, (msg) => {
+     let languageCode = msg.from.language_code;
      let chatId = msg.chat.id;
      let userId = msg.from.id;
-     let deleteQuery = `delete from users where id = ${userId};`;
 
-     database.queryDatabase(deleteQuery).then(function (result) {
-          log(result);
-          bot.sendMessage(chatId, constants.deleteUserText);
+     database.deleteUser(userId, languageCode).then(function (message) {
+          bot.sendMessage(chatId, message);
      }).catch(function (err) {
-          log(err);
-          sendErrorMessageToBot(chatId);
+          helpers.log(err);
+          sendErrorMessageToBot(chatId, languageCode);
      });
 });
 
 bot.onText(/^\/ingresos (.+)/, (msg, match) => {
+     let languageCode = msg.from.language_code;
      let chatId = msg.chat.id;
      let userId = msg.from.id;
      let name = msg.from.first_name;
      let revenue = match[1];
-     let createdAt = new Date().getTime();
-     let insertQuery = `insert into users (id,name,revenue,created_at) values (${userId},'${name}',${revenue},${createdAt});`;
-     let updateQuery = `update users set revenue = ${revenue} where id = ${userId};`
 
-     database.queryDatabase(insertQuery).then(function (result) {
-          log(result);
-          bot.sendMessage(chatId, constants.revenueInsertText);
+     database.addTotalRevenue(userId, name, revenue, languageCode).then(function (message) {
+          bot.sendMessage(chatId, message);
      }).catch(function (err) {
-          log(err);
-          database.queryDatabase(updateQuery).then(function (result) {
-               log(result);
-               bot.sendMessage(chatId, constants.revenueUpdateText);
-          }).catch(function (err) {
-               log(err);
-               sendErrorMessageToBot(chatId);
-          });
+          helpers.log(err);
+          sendErrorMessageToBot(chatId, languageCode);
      });
 });
 
 bot.onText(/^\/start/, (msg) => {
+     let languageCode = msg.from.language_code;
      let chatId = msg.chat.id;
      let name = msg.from.first_name;
-     let message = `¡Hola ${name}!${constants.startText}`;
+     let message = util.format(localization.getText("helloText", languageCode), name);
 
      bot.sendMessage(chatId, message);
 });
 
 bot.on('callback_query', function onCallbackQuery(action) {
+     let languageCode = msg.from.language_code;
      let chatId = action.message.chat.id;
      let userId = action.from.id;
      let data = action.data;
-     let selectQuery = `select revenue from users where id = '${userId}';`
 
-     if (data == constants.totalRevenueOptionText) {
-          database.queryDatabase(selectQuery).then(function (result) {
-               if (result.rows.length == 0) {
-                    bot.sendMessage(chatId, constants.zeroRevenueText);
-               } else {
-                    let json = JSON.stringify(result.rows[0]);
-                    let obj = JSON.parse(json);
-                    let revenue = {
-                         amount: obj.revenue
-                    };
-
-                    bot.sendMessage(chatId, `Tus ingresos totales son ${helpers.formatter.format(revenue.amount)} €.`);
-               }
+     if (data == localization.getText("totalRevenueOptionText", languageCode)) {
+          database.getTotalRevenue(userId, languageCode).then(function (message) {
+               bot.sendMessage(chatId, message);
           }).catch(function (err) {
-               sendErrorMessageToBot(chatId);
+               helpers.log(err);
+               sendErrorMessageToBot(chatId, languageCode);
           });
-     } else if (data == constants.cancelText) {
-          bot.sendMessage(chatId, constants.cancelActionsText);
+     } else if (data == localization.getText("cancelText", languageCode)) {
+          bot.sendMessage(chatId, localization.getText("cancelActionsText", languageCode));
      }
 });
 
-/**
- * Scheduler functions.
- */
+function sendErrorMessageToBot(chatId, languageCode) {
+     bot.sendMessage(chatId, localization.getText("generalErrorText", languageCode));
+};
+
 /**
 cron.schedule('* * * * *', () => {
-});*/
-
-/**
- * Helper functions.
- */
-function sendErrorMessageToBot(chatId) {
-     bot.sendMessage(chatId, constants.generalErrorText);
-};
-
-/**
- * Logs.
- */
-function log(message) {
-     console.log(message);
-};
+}); */
