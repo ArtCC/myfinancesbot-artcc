@@ -113,7 +113,7 @@ bot.onText(/^\/suscripcion (.+)/, (msg, match) => {
      let suscriptionType = data[2];
      let suscriptionDate = data[3];
 
-     database.addSuscription(userId, suscriptionName, suscriptionPrice, suscriptionType, suscriptionDate, languageCode).then(function (message) {
+     database.addSubscription(userId, suscriptionName, suscriptionPrice, suscriptionType, suscriptionDate, languageCode).then(function (message) {
           bot.sendMessage(chatId, message);
      }).catch(function (err) {
           helpers.log(err);

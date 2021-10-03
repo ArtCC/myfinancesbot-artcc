@@ -11,13 +11,13 @@ const pool = new Pool({
 });
 const util = require('util');
 
-function addSuscription(userId, name, price, type, date, languageCode) {
+function addSubscription(userId, name, price, type, date, languageCode) {
      return new Promise(function (resolve, reject) {
-          let insertQuery = `insert into suscription (user_id,name,price,type,date) values (${userId},'${name}',${price},'${type}','${date}');`;
+          let insertQuery = `insert into subscriptions (user_id,name,price,type,date) values (${userId},'${name}',${price},'${type}','${date}');`;
 
           queryDatabase(insertQuery).then(function (result) {
                helpers.log(result);
-               resolve(util.format(localization.getText("addSuscriptionText", languageCode), type, name, price));
+               resolve(util.format(localization.getText("addSubscriptionText", languageCode), type, name, price));
           }).catch(function (err) {
                helpers.log(err);
                reject(err);
@@ -105,7 +105,7 @@ function queryDatabase(query) {
      });
 };
 
-module.exports.addSuscription = addSuscription;
+module.exports.addSubscription = addSubscription;
 module.exports.addTotalRevenue = addTotalRevenue;
 module.exports.deleteUser = deleteUser;
 module.exports.getTotalRevenue = getTotalRevenue;

@@ -21,5 +21,5 @@
     "oneCoinText": "1 €",
     "threeCoinText": "3 €",
     "fiveCoinText": "5 €",
-    "addSuscriptionText": "Tu suscripción %s a %s por %s € ha sido añadida correctamente"
+    "addSubscriptionText": "Tu suscripción %s a %s por %s € ha sido añadida correctamente"
 }
