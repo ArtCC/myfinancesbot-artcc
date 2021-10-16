@@ -109,6 +109,7 @@ function getSubscriptions(userId, languageCode, forDelete) {
                          let json = JSON.stringify(row);
                          let obj = JSON.parse(json);
                          let subscription = {
+                              subscriptionId: obj.id,
                               name: obj.name,
                               price: obj.price,
                               type: obj.type,
@@ -124,7 +125,7 @@ function getSubscriptions(userId, languageCode, forDelete) {
                          sortedSubscriptions.forEach(sub => {
                               let nameText = helpers.capitalizeFirstLetter(sub.name);
                               let callbackData = localization.getText("subscriptionPreData", languageCode);
-                              buttonData.push([{ text: nameText, callback_data: `${callbackData}${sub.name}` }]);
+                              buttonData.push([{ text: nameText, callback_data: `${callbackData}${sub.subscriptionId}` }]);
                          });
                          buttonData.push([{
                               text: localization.getText("cancelText", languageCode),

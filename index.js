@@ -7,6 +7,7 @@ const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, {
 const constants = require('./src/constants');
 const cron = require('node-cron');
 const database = require('./src/database');
+const emoji = require('node-emoji');
 const helpers = require('./src/helpers');
 const localization = require('./src/localization');
 const util = require('util');
@@ -15,11 +16,14 @@ bot.onText(/^\/acciones/, (msg) => {
      let languageCode = msg.from.language_code;
      let chatId = msg.chat.id;
 
+     let moneyEmoji = emoji.get('euro');
+     let listEmoji = emoji.get('spiral_calendar_pad');
+
      var buttonData = [[{
-          text: localization.getText("totalRevenueOptionText", languageCode),
+          text: `${moneyEmoji} ${localization.getText("totalRevenueOptionText", languageCode)}`,
           callback_data: localization.getText("totalRevenueOptionText", languageCode)
      }], [{
-          text: localization.getText("subscriptionsOptionText", languageCode),
+          text: `${listEmoji} ${localization.getText("subscriptionsOptionText", languageCode)}`,
           callback_data: localization.getText("subscriptionsOptionText", languageCode)
      }], [{
           text: localization.getText("cancelText", languageCode),
