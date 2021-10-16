@@ -10,6 +10,7 @@ const database = require('./src/database');
 const emoji = require('node-emoji');
 const helpers = require('./src/helpers');
 const localization = require('./src/localization');
+const moment = require('moment');
 const util = require('util');
 
 bot.onText(/^\/acciones/, (msg) => {
@@ -276,11 +277,11 @@ cron.schedule('* * * * *', () => {
      if (time === constants.morningNotification) {
      }
 
-     if (time == "20:42") {
+     if (time == "20:48") {
           helpers.log(time);
           database.getAllSubscriptions().then(function (response) {
                response.forEach(subscription => {
-                    let date = new Date(subscription.date);
+                    let date = moment(subscription.date, 'DD-MM-YYYY');
                     helpers.log(date);
                });
           }).catch(function (err) {
