@@ -261,4 +261,17 @@ function sendInfo(chatId, name, languageCode) {
 };
 
 cron.schedule('* * * * *', () => {
+     let date = new Date();
+     let hour = date.getHours();
+     let minutes = date.getMinutes();
+
+     var time;
+
+     if (minutes < 10) {
+          time = `${hour}:0${minutes}`;
+     } else {
+          time = `${hour}:${minutes}`;
+     }
+
+     helpers.log(time);
 });
