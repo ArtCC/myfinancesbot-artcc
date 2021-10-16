@@ -273,5 +273,6 @@ cron.schedule('* * * * *', () => {
           time = `${hour}:${minutes}`;
      }
 
-     helpers.log(time);
+     if (time === constants.morningNotification) {
+     }
 });
