@@ -276,10 +276,13 @@ cron.schedule('* * * * *', () => {
      if (time === constants.morningNotification) {
      }
 
-     if (time == "20:28") {
+     if (time == "20:33") {
           helpers.log(time);
-          database.getAllSubscriptions().then(function (result) {
-               helpers.log(result);
+          database.getAllSubscriptions().then(function (response) {
+               response.forEach(subscription => {
+                    let date = new Date(subscription.date);
+                    helpers.log(date);
+               });
           }).catch(function (err) {
                helpers.log(err);
           });
