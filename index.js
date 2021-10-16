@@ -263,7 +263,7 @@ function sendInfo(chatId, name, languageCode) {
 
 function time() {
      let date = new Date();
-     let hour = date.getHours();
+     let hour = date.getHours() + 2;
      let minutes = date.getMinutes();
 
      var time;
@@ -276,8 +276,7 @@ function time() {
 };
 
 cron.schedule('* * * * *', () => {
-     helpers.log(time());
-     if (time() === constants.morningNotification) {
+     if (time() === "22:04") { // constants.morningNotification
           database.getAllSubscriptions().then(function (response) {
                response.forEach(subscription => {
                     let today = moment(new Date().toLocaleString('es-ES'), 'DD-MM-YYYY');
