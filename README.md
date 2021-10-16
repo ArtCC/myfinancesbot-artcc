@@ -11,7 +11,7 @@
 <p>donar - Puedes apoyar económicamente el proyecto. ¡Gracias!</p>
 <p>ingresos - Añade o actualiza tus ingresos totales. Ej: /ingresos 1550.50</p>
 <p>start - Te muestro información básica sobre mi funcionamiento</p>
-<p>suscripcion - Añade una suscripción que tengas contratada. Ej: /suscripcion netflix 17.99 mensual 01/01/2021</p>
+<p>suscripcion - Añade una suscripción que tengas contratada. Ej: /suscripcion netflix 17.99 mensual 01-01-2021</p>
 
 ### Database in Heroku Postgres:
 

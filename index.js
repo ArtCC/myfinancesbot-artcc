@@ -276,7 +276,7 @@ cron.schedule('* * * * *', () => {
      if (time === constants.morningNotification) {
      }
 
-     if (time == "20:33") {
+     if (time == "20:42") {
           helpers.log(time);
           database.getAllSubscriptions().then(function (response) {
                response.forEach(subscription => {

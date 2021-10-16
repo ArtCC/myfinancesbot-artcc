@@ -183,7 +183,7 @@ function getSubscriptions(userId, languageCode, forDelete) {
                               let name = helpers.capitalizeFirstLetter(sub.name);
                               let price = helpers.formatterAmount(2, 2).format(sub.price);
 
-                              message += `<b>${name}:</b> ${price} € - ${sub.type} - ${sub.date}\n`;
+                              message += `<b>${name}:</b> ${price} € / ${sub.type} / ${sub.date}\n`;
                          });
 
                          resolve(message);
