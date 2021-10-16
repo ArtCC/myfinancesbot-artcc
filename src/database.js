@@ -69,7 +69,7 @@ function deleteUser(userId, languageCode) {
           queryDatabase(deleteUserQuery).then(function (result) {
                helpers.log(result);
 
-               let deleteSubscriptionsQuery = `delete from subscriptions where id = ${userId};`;
+               let deleteSubscriptionsQuery = `delete from subscriptions where user_id = ${userId};`;
 
                queryDatabase(deleteSubscriptionsQuery).then(function (result) {
                     helpers.log(result);
