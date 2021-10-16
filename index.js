@@ -78,7 +78,7 @@ bot.onText(/^\/ingresos (.+)/, (msg, match) => {
      let name = msg.from.first_name;
      let revenue = match[1];
 
-     database.addTotalRevenue(userId, name, revenue, languageCode).then(function (message) {
+     database.addTotalRevenue(userId, chatId, name, revenue, languageCode).then(function (message) {
           bot.sendMessage(chatId, message);
      }).catch(function (err) {
           helpers.log(err);
@@ -123,7 +123,7 @@ bot.onText(/^\/suscripcion (.+)/, (msg, match) => {
                sendErrorMessageToBot(chatId, languageCode);
           });
      } else {
-          database.addSubscription(userId, suscriptionName, suscriptionPrice, suscriptionType, suscriptionDate, languageCode).then(function (message) {
+          database.addSubscription(userId, chatId, suscriptionName, suscriptionPrice, suscriptionType, suscriptionDate, languageCode).then(function (message) {
                bot.sendMessage(chatId, message);
           }).catch(function (err) {
                helpers.log(err);

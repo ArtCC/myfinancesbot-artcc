@@ -11,9 +11,9 @@ const pool = new Pool({
 });
 const util = require('util');
 
-function addSubscription(userId, name, price, type, date, languageCode) {
+function addSubscription(userId, chatId, name, price, type, date, languageCode) {
      return new Promise(function (resolve, reject) {
-          let insertQuery = `insert into subscriptions (user_id,name,price,type,date) values (${userId},'${name}',${price},'${type}','${date}');`;
+          let insertQuery = `insert into subscriptions (user_id,chat_id,name,price,type,date) values (${userId},${chatId},'${name}',${price},'${type}','${date}');`;
 
           queryDatabase(insertQuery).then(function (result) {
                helpers.log(result);
@@ -26,11 +26,11 @@ function addSubscription(userId, name, price, type, date, languageCode) {
      });
 };
 
-function addTotalRevenue(userId, name, revenue, languageCode) {
+function addTotalRevenue(userId, chatId, name, revenue, languageCode) {
      return new Promise(function (resolve, reject) {
           let createdAt = new Date().getTime();
-          let insertQuery = `insert into users (id,name,revenue,created_at) values (${userId},'${name}',${revenue},${createdAt});`;
-          let updateQuery = `update users set revenue = ${revenue} where id = ${userId};`
+          let insertQuery = `insert into users (user_id,chat_id,name,revenue,created_at) values (${userId},${chatId},'${name}',${revenue},${createdAt});`;
+          let updateQuery = `update users set revenue = ${revenue} where user_id = ${userId};`
 
           queryDatabase(insertQuery).then(function (result) {
                helpers.log(result);
@@ -64,7 +64,7 @@ function deleteSubscription(userId, subscriptionId, languageCode) {
 
 function deleteUser(userId, languageCode) {
      return new Promise(function (resolve, reject) {
-          let deleteUserQuery = `delete from users where id = ${userId};`;
+          let deleteUserQuery = `delete from users where user_id = ${userId};`;
 
           queryDatabase(deleteUserQuery).then(function (result) {
                helpers.log(result);
@@ -87,7 +87,7 @@ function deleteUser(userId, languageCode) {
 
 function getTotalRevenue(userId, languageCode) {
      return new Promise(function (resolve, reject) {
-          let selectQuery = `select revenue from users where id = '${userId}';`
+          let selectQuery = `select revenue from users where user_id = '${userId}';`
 
           queryDatabase(selectQuery).then(function (result) {
                if (result.rows.length == 0) {
