@@ -263,7 +263,7 @@ function sendInfo(chatId, name, languageCode) {
 
 cron.schedule('* * * * *', () => {
      let date = new Date();
-     let hour = date.getHours() +2;
+     let hour = date.getHours() + 2;
      let minutes = date.getMinutes();
 
      var time;
@@ -280,12 +280,20 @@ cron.schedule('* * * * *', () => {
      if (time == "21:15") {
           database.getAllSubscriptions().then(function (response) {
                response.forEach(subscription => {
-                    let today = new Date().toLocaleString('es-ES');
-                    let todayMoment = moment(today, 'DD-MM-YYYY');
-                    helpers.log(todayMoment);
+                    let today = moment(new Date().toLocaleString('es-ES'), 'DD-MM-YYYY');
+                    let subscriptionDate = moment(subscription.date, 'DD-MM-YYYY');
 
-                    let date = moment(subscription.date, 'DD-MM-YYYY');
-                    helpers.log(date);
+                    if (subscription.type == constants.monthSubscriptionType) {
+                         if (subscriptionDate.day == today.day) {
+                              helpers.log("Mensual");
+                              helpers.log(subscription.name);
+                         }
+                    } else if (subscription.type == constants.yearSubscriptionType) {
+                         if (subscriptionDate.day == today.day && subscriptionDate.month == today.month) {
+                              helpers.log("Anual");
+                              helpers.log(subscription.name);
+                         }
+                    }
                });
           }).catch(function (err) {
                helpers.log(err);
