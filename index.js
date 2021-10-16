@@ -277,21 +277,22 @@ cron.schedule('* * * * *', () => {
      if (time === constants.morningNotification) {
      }
 
-     if (time == "21:26") {
+     if (time == "21:31") {
           database.getAllSubscriptions().then(function (response) {
                response.forEach(subscription => {
                     let today = moment(new Date().toLocaleString('es-ES'), 'DD-MM-YYYY');
                     let subscriptionDate = moment(subscription.date, 'DD-MM-YYYY');
 
+                    helpers.log(today.day);
+                    helpers.log(subscriptionDate.day);
+
                     if (subscription.type == constants.monthSubscriptionType) {
                          if (subscriptionDate.day == today.day) {
-                              helpers.log("Mensual");
-                              helpers.log(subscription.name);
+                              helpers.log("Mensual: " + subscription.name);
                          }
                     } else if (subscription.type == constants.yearSubscriptionType) {
                          if (subscriptionDate.day == today.day && subscriptionDate.month == today.month) {
-                              helpers.log("Anual");
-                              helpers.log(subscription.name);
+                              helpers.log("Anual: " + subscription.name);
                          }
                     }
                });
