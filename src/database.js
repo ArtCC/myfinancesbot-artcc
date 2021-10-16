@@ -104,7 +104,14 @@ function getSubscriptions(userId, languageCode) {
                if (result.rows.length == 0) {
                     resolve(localization.getText("zeroSubscriptionsText", languageCode));
                } else {
+                    Array.prototype.sortBy = function (p) {
+                         return this.slice(0).sort(function (a, b) {
+                              return (a[p] > b[p]) ? 1 : (a[p] < b[p]) ? -1 : 0;
+                         });
+                    }
+
                     var message = util.format(localization.getText("AllSubscriptionsText", languageCode));
+                    var subscriptions = [];
 
                     for (let row of result.rows) {
                          let json = JSON.stringify(row);
@@ -115,12 +122,16 @@ function getSubscriptions(userId, languageCode) {
                               type: obj.type,
                               date: obj.date
                          };
-
-                         let name = helpers.capitalizeFirstLetter(subscription.name);
-                         let price = helpers.formatterAmount(2, 2).format(subscription.price);
-
-                         message += `<b>${name}:</b> ${price} € - ${subscription.type} - ${subscription.date}\n`;
+                         subscriptions.push(subscription);
                     }
+
+                    subscriptions.sortBy('price');
+                    subscriptions.forEach(sub => {
+                         let name = helpers.capitalizeFirstLetter(sub.name);
+                         let price = helpers.formatterAmount(2, 2).format(sub.price);
+
+                         message += `<b>${name}:</b> ${price} € - ${sub.type} - ${sub.date}\n`;
+                    });
 
                     resolve(message);
                }
