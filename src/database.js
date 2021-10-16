@@ -108,15 +108,21 @@ function getSubscriptions(userId, languageCode) {
 
                     for (let row of result.rows) {
                          let json = JSON.stringify(row);
+
+                         helpers.log(json);
+
                          let obj = JSON.parse(json);
-                         let sub = {
+                         
+                         helpers.log(obj);
+
+                         let subscription = {
                               name: obj.name,
                               price: obj.price,
                               type: obj.type,
                               date: obj.date
                          };
 
-                         message += `<b>${sub.name}:</b> ${helpers.formatterAmount(2, 2).format(sub.price)} € - ${sub.type} - ${sub.date}\n`;
+                         message += `<b>${subscription.name}:</b> ${helpers.formatterAmount(2, 2).format(subscription.price)} € - ${subscription.type} - ${subscription.date}\n`;
                     }
 
                     resolve(message);
