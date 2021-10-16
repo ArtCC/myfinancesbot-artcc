@@ -96,7 +96,7 @@ function getTotalRevenue(userId, languageCode) {
      });
 };
 
-function getSubscriptions(userId, languageCode) {
+function getSubscriptions(userId, languageCode, forDelete) {
      return new Promise(function (resolve, reject) {
           let selectQuery = `select * from subscriptions where user_id = ${userId};`
 
@@ -104,9 +104,7 @@ function getSubscriptions(userId, languageCode) {
                if (result.rows.length == 0) {
                     resolve(localization.getText("zeroSubscriptionsText", languageCode));
                } else {
-                    var message = util.format(localization.getText("AllSubscriptionsText", languageCode));
                     var subscriptions = [];
-
                     for (let row of result.rows) {
                          let json = JSON.stringify(row);
                          let obj = JSON.parse(json);
@@ -119,15 +117,32 @@ function getSubscriptions(userId, languageCode) {
                          subscriptions.push(subscription);
                     }
 
-                    let sortedSubscriptions = subscriptions.sort((a, b) => (b.price > a.price) ? 1 : -1)
-                    sortedSubscriptions.forEach(sub => {
-                         let name = helpers.capitalizeFirstLetter(sub.name);
-                         let price = helpers.formatterAmount(2, 2).format(sub.price);
+                    if (forDelete) {
+                         var buttonData = []
+                         sortedSubscriptions.forEach(sub => {
+                              let nameText = helpers.capitalizeFirstLetter(sub.name);
+                              let callbackData = localization.getText("subscriptionPreData", languageCode);
+                              buttonData.push([{ text: nameText, callback_data: `${callbackData}${sub.name}` }]);
+                         });
+                         buttonData.push([{
+                              text: localization.getText("cancelText", languageCode),
+                              callback_data: localization.getText("cancelText", languageCode)
+                         }]);
 
-                         message += `<b>${name}:</b> ${price} € - ${sub.type} - ${sub.date}\n`;
-                    });
+                         resolve(buttonData);
+                    } else {
+                         var message = util.format(localization.getText("AllSubscriptionsText", languageCode));
 
-                    resolve(message);
+                         let sortedSubscriptions = subscriptions.sort((a, b) => (b.price > a.price) ? 1 : -1)
+                         sortedSubscriptions.forEach(sub => {
+                              let name = helpers.capitalizeFirstLetter(sub.name);
+                              let price = helpers.formatterAmount(2, 2).format(sub.price);
+
+                              message += `<b>${name}:</b> ${price} € - ${sub.type} - ${sub.date}\n`;
+                         });
+
+                         resolve(message);
+                    }
                }
           }).catch(function (err) {
                helpers.log(err);

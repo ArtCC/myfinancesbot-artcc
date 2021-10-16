@@ -115,12 +115,32 @@ bot.onText(/^\/suscripcion (.+)/, (msg, match) => {
      let suscriptionType = data[2];
      let suscriptionDate = data[3];
 
-     database.addSubscription(userId, suscriptionName, suscriptionPrice, suscriptionType, suscriptionDate, languageCode).then(function (message) {
-          bot.sendMessage(chatId, message);
-     }).catch(function (err) {
-          helpers.log(err);
-          sendErrorMessageToBot(chatId, languageCode);
-     });
+     if (suscriptionName == localization.getText("deleteCommandText", languageCode)) {
+          database.getSubscriptions(userId, languageCode, true).then(function (buttonData) {
+               let buttons = {
+                    reply_markup: {
+                         inline_keyboard: buttonData
+                    }
+               }
+
+               bot.sendMessage(chatId, localization.getText("deleteSubscriptionButtonsTitle", languageCode), buttons).then(function (result) {
+                    helpers.log(result);
+               }).catch(function (err) {
+                    helpers.log(err);
+                    bot.sendMessage(chatId, localization.getText("zeroSubscriptionsText", languageCode));
+               });
+          }).catch(function (err) {
+               helpers.log(err);
+               sendErrorMessageToBot(chatId, languageCode);
+          });
+     } else {
+          database.addSubscription(userId, suscriptionName, suscriptionPrice, suscriptionType, suscriptionDate, languageCode).then(function (message) {
+               bot.sendMessage(chatId, message);
+          }).catch(function (err) {
+               helpers.log(err);
+               sendErrorMessageToBot(chatId, languageCode);
+          });
+     }
 });
 
 bot.on('callback_query', function onCallbackQuery(action) {
@@ -152,12 +172,16 @@ bot.on('callback_query', function onCallbackQuery(action) {
                sendErrorMessageToBot(chatId, languageCode);
           });
      } else if (data == localization.getText("subscriptionsOptionText", languageCode)) {
-          database.getSubscriptions(userId, languageCode).then(function (message) {
+          database.getSubscriptions(userId, languageCode, false).then(function (message) {
                bot.sendMessage(chatId, message, { parse_mode: constants.parseMode });
           }).catch(function (err) {
                helpers.log(err);
                sendErrorMessageToBot(chatId, languageCode);
           });
+     } else if (data.indexOf(localization.getText("subscriptionPreData", languageCode)) > -1) {
+          let dataClean = data.replace(localization.getText("subscriptionPreData", languageCode), "");
+          
+          helpers.log(dataClean);
      }
 });
 
