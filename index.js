@@ -277,14 +277,14 @@ cron.schedule('* * * * *', () => {
      if (time === constants.morningNotification) {
      }
 
-     if (time == "21:34") {
+     if (time == "21:42") {
           database.getAllSubscriptions().then(function (response) {
                response.forEach(subscription => {
                     let today = moment(new Date().toLocaleString('es-ES'), 'DD-MM-YYYY');
                     let subscriptionDate = moment(subscription.date, 'DD-MM-YYYY');
 
-                    helpers.log(today.date);
-                    helpers.log(subscriptionDate.date);
+                    helpers.log(today.date());
+                    helpers.log(subscriptionDate.date());
 
                     if (subscription.type == constants.monthSubscriptionType) {
                          if (subscriptionDate.date == today.date) {
