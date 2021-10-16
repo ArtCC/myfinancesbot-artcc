@@ -261,23 +261,22 @@ function sendInfo(chatId, name, languageCode) {
      });
 };
 
-cron.schedule('* * * * *', () => {
+function time() {
      let date = new Date();
-     let hour = date.getHours() + 2;
+     let hour = date.getHours();
      let minutes = date.getMinutes();
 
      var time;
-
      if (minutes < 10) {
           time = `${hour}:0${minutes}`;
      } else {
           time = `${hour}:${minutes}`;
      }
+     return time;
+};
 
-     if (time === constants.morningNotification) {
-     }
-
-     if (time == "21:56") {
+cron.schedule('* * * * *', () => {
+     if (time() === "22:00") { // constants.morningNotification
           database.getAllSubscriptions().then(function (response) {
                response.forEach(subscription => {
                     let today = moment(new Date().toLocaleString('es-ES'), 'DD-MM-YYYY');
@@ -285,7 +284,7 @@ cron.schedule('* * * * *', () => {
                     let subscriptionName = helpers.capitalizeFirstLetter(subscription.name);
                     let subscriptionDate = moment(subscription.date, 'DD-MM-YYYY');
                     let chatId = subscription.chatId;
-                    let message = util.format(localization.getText("sendInfoText", languageCode), subscription.type, subscriptionName, subscription.price);
+                    let message = util.format(localization.getText("sendInfoText", constants.esLanguageCode), subscription.type, subscriptionName, subscription.price);
 
                     if (subscription.type == constants.monthSubscriptionType) {
                          if (subscriptionDate.date() == today.date()) {

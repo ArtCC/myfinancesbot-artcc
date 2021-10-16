@@ -3,5 +3,6 @@ module.exports = {
     parseMode: "HTML",
     morningNotification: "9:00",
     yearSubscriptionType: "anual",
-    monthSubscriptionType: "mensual"
+    monthSubscriptionType: "mensual",
+    esLanguageCode: "es"
 };
