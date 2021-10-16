@@ -104,7 +104,7 @@ function getSubscriptions(userId, languageCode) {
                if (result.rows.length == 0) {
                     resolve(localization.getText("zeroSubscriptionsText", languageCode));
                } else {
-                    helpers.logs(result.rows);
+                    helpers.log(result.rows);
 
                     var message = util.format(localization.getText("AllSubscriptionsText", languageCode));
 
