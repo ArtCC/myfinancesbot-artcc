@@ -276,7 +276,8 @@ function time() {
 };
 
 cron.schedule('* * * * *', () => {
-     if (time() === "22:00") { // constants.morningNotification
+     helpers.log(time());
+     if (time() === constants.morningNotification) {
           database.getAllSubscriptions().then(function (response) {
                response.forEach(subscription => {
                     let today = moment(new Date().toLocaleString('es-ES'), 'DD-MM-YYYY');
