@@ -85,8 +85,6 @@ function getTotalRevenue(userId, languageCode) {
                          amount: obj.revenue
                     };
 
-                    helpers.log(obj);
-
                     let total = util.format(localization.getText("totalRevenueText", languageCode), helpers.formatterAmount(2, 2).format(revenue.amount));
 
                     resolve(total);
@@ -100,7 +98,7 @@ function getTotalRevenue(userId, languageCode) {
 
 function getSubscriptions(userId, languageCode) {
      return new Promise(function (resolve, reject) {
-          let selectQuery = `select (name,price,type,date) from subscriptions where user_id = ${userId};`
+          let selectQuery = `select * from subscriptions where user_id = ${userId};`
 
           queryDatabase(selectQuery).then(function (result) {
                if (result.rows.length == 0) {
