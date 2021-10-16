@@ -276,7 +276,7 @@ function time() {
 };
 
 cron.schedule('* * * * *', () => {
-     if (time() === "22:04") { // constants.morningNotification
+     if (time() === "22:07") { // constants.morningNotification
           database.getAllSubscriptions().then(function (response) {
                response.forEach(subscription => {
                     let today = moment(new Date().toLocaleString('es-ES'), 'DD-MM-YYYY');
@@ -284,7 +284,7 @@ cron.schedule('* * * * *', () => {
                     let subscriptionName = helpers.capitalizeFirstLetter(subscription.name);
                     let subscriptionDate = moment(subscription.date, 'DD-MM-YYYY');
                     let chatId = subscription.chatId;
-                    let message = util.format(localization.getText("sendInfoText", constants.esLanguageCode), subscription.type, subscriptionName, subscription.price);
+                    let message = util.format(localization.getText("subscriptionRemember", constants.esLanguageCode), subscription.type, subscriptionName, subscription.price);
 
                     if (subscription.type == constants.monthSubscriptionType) {
                          if (subscriptionDate.date() == today.date()) {
