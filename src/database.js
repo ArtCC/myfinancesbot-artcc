@@ -98,7 +98,7 @@ function getTotalRevenue(userId, languageCode) {
 
 function getSubscriptions(userId, languageCode) {
      return new Promise(function (resolve, reject) {
-          let selectQuery = `select (name,price,type,date) from subscriptions where user_id = '${userId}';`
+          let selectQuery = `select (name,price,type,date) from subscriptions where user_id = ${userId};`
 
           queryDatabase(selectQuery).then(function (result) {
                if (result.rows.length == 0) {
@@ -116,7 +116,9 @@ function getSubscriptions(userId, languageCode) {
                               date: obj.date
                          };
 
-                         message += `<b>${subscription.name}:</b> ${helpers.formatterAmount(2, 2).format(subscription.price)} € - ${subscription.type} - ${subscription.date}`;
+                         helpers.log(subscription);
+
+                         message += `<b>${subscription.name}:</b> ${helpers.formatterAmount(2, 2).format(subscription.price)} € - ${subscription.type} - ${subscription.date}\n`;
                     }
 
                     resolve(message);
