@@ -85,6 +85,8 @@ function getTotalRevenue(userId, languageCode) {
                          amount: obj.revenue
                     };
 
+                    helpers.log(obj);
+
                     let total = util.format(localization.getText("totalRevenueText", languageCode), helpers.formatterAmount(2, 2).format(revenue.amount));
 
                     resolve(total);
@@ -108,13 +110,7 @@ function getSubscriptions(userId, languageCode) {
 
                     for (let row of result.rows) {
                          let json = JSON.stringify(row);
-
-                         helpers.log(json);
-
                          let obj = JSON.parse(json);
-                         
-                         helpers.log(obj);
-
                          let subscription = {
                               name: obj.name,
                               price: obj.price,
