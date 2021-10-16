@@ -28,9 +28,7 @@ bot.onText(/^\/acciones/, (msg) => {
 
      let buttons = {
           reply_markup: {
-               inline_keyboard: [
-                    buttonData
-               ]
+               inline_keyboard: buttonData
           }
      }
 
@@ -40,7 +38,6 @@ bot.onText(/^\/acciones/, (msg) => {
 bot.onText(/^\/borrar/, (msg) => {
      let languageCode = msg.from.language_code;
      let chatId = msg.chat.id;
-     let userId = msg.from.id;
 
      var buttonData = [[{
           text: localization.getText("deleteYesText", languageCode),
@@ -52,9 +49,7 @@ bot.onText(/^\/borrar/, (msg) => {
 
      let buttons = {
           reply_markup: {
-               inline_keyboard: [
-                    buttonData
-               ]
+               inline_keyboard: buttonData
           }
      }
 
