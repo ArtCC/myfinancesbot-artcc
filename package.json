@@ -23,6 +23,7 @@
     "node-cron": "^3.0.0",
     "node-emoji": "^1.11.0",
     "node-telegram-bot-api": "^0.54.0",
-    "pg": "^8.7.1"
+    "pg": "^8.7.1",
+    "quickchart-js": "^1.4.2"
   }
 }
