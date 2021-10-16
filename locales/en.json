@@ -31,5 +31,6 @@
     "deleteSubscriptionButtonsTitle": "¿Qué suscripción quieres borrar?",
     "subscriptionPreData": "subscription.",
     "donateOptionText": "Donar",
-    "deleteSubscriptionOkText": "La suscripción ha sido eliminada correctamente."
+    "deleteSubscriptionOkText": "La suscripción ha sido eliminada correctamente.",
+    "subscriptionRemember": "Recuerda que hoy tienes el cargo de tu suscripción %s a %s de %s €."
 }

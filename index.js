@@ -277,19 +277,23 @@ cron.schedule('* * * * *', () => {
      if (time === constants.morningNotification) {
      }
 
-     if (time == "21:44") {
+     if (time == "21:56") {
           database.getAllSubscriptions().then(function (response) {
                response.forEach(subscription => {
                     let today = moment(new Date().toLocaleString('es-ES'), 'DD-MM-YYYY');
+
+                    let subscriptionName = helpers.capitalizeFirstLetter(subscription.name);
                     let subscriptionDate = moment(subscription.date, 'DD-MM-YYYY');
+                    let chatId = subscription.chatId;
+                    let message = util.format(localization.getText("sendInfoText", languageCode), subscription.type, subscriptionName, subscription.price);
 
                     if (subscription.type == constants.monthSubscriptionType) {
                          if (subscriptionDate.date() == today.date()) {
-                              helpers.log("Mensual: " + subscription.name);
+                              bot.sendMessage(chatId, message);
                          }
                     } else if (subscription.type == constants.yearSubscriptionType) {
                          if (subscriptionDate.date() == today.date() && subscriptionDate.month() == today.month()) {
-                              helpers.log("Anual: " + subscription.name);
+                              bot.sendMessage(chatId, message);
                          }
                     }
                });
