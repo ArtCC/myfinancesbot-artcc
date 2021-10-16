@@ -119,7 +119,7 @@ function getSubscriptions(userId, languageCode) {
                          subscriptions.push(subscription);
                     }
 
-                    let sortedSubscriptions = subscriptions.sort((a, b) => (a.price > b.price) ? 1 : -1)
+                    let sortedSubscriptions = subscriptions.sort((a, b) => (b.price > a.price) ? 1 : -1)
                     sortedSubscriptions.forEach(sub => {
                          let name = helpers.capitalizeFirstLetter(sub.name);
                          let price = helpers.formatterAmount(2, 2).format(sub.price);
