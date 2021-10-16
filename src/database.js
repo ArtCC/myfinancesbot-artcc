@@ -116,7 +116,10 @@ function getSubscriptions(userId, languageCode) {
                               date: obj.date
                          };
 
-                         message += `<b>${subscription.name}:</b> ${helpers.formatterAmount(2, 2).format(subscription.price)} € - ${subscription.type} - ${subscription.date}\n`;
+                         let name = helpers.capitalizeFirstLetter(subscription.name);
+                         let price = helpers.formatterAmount(2, 2).format(subscription.price);
+
+                         message += `<b>${name}:</b> ${price} € - ${subscription.type} - ${subscription.date}\n`;
                     }
 
                     resolve(message);
