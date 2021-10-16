@@ -49,11 +49,21 @@ function addTotalRevenue(userId, name, revenue, languageCode) {
 
 function deleteUser(userId, languageCode) {
      return new Promise(function (resolve, reject) {
-          let deleteQuery = `delete from users where id = ${userId};`;
+          let deleteUserQuery = `delete from users where id = ${userId};`;
 
-          queryDatabase(deleteQuery).then(function (result) {
+          queryDatabase(deleteUserQuery).then(function (result) {
                helpers.log(result);
-               resolve(localization.getText("deleteUserText", languageCode));
+
+               let deleteSubscriptionsQuery = `delete from subscriptions where id = ${userId};`;
+
+               queryDatabase(deleteSubscriptionsQuery).then(function (result) {
+                    helpers.log(result);
+                    resolve(localization.getText("deleteUserText", languageCode));
+               }).catch(function (err) {
+                    helpers.log(err);
+                    reject(err);
+               });
+
           }).catch(function (err) {
                helpers.log(err);
                reject(err);
@@ -86,6 +96,38 @@ function getTotalRevenue(userId, languageCode) {
      });
 };
 
+function getSubscriptions(userId, languageCode) {
+     return new Promise(function (resolve, reject) {
+          let selectQuery = `select (name,price,type,date) from subscriptions where id = '${userId}';`
+
+          queryDatabase(selectQuery).then(function (result) {
+               if (result.rows.length == 0) {
+                    resolve(localization.getText("zeroSubscriptionsText", languageCode));
+               } else {
+                    var message = util.format(localization.getText("AllSubscriptionsText", languageCode));
+
+                    for (let row of result.rows) {
+                         let json = JSON.stringify(row);
+                         let obj = JSON.parse(json);
+                         let subscription = {
+                              name: obj.name,
+                              price: obj.price,
+                              type: obj.type,
+                              date: obj.date
+                         };
+
+                         message += `<b>${subscription.name}:</b> ${helpers.formatterAmount(2, 2).format(price.amount)} € - ${subscription.type} - ${subscription.date}`;
+                    }
+
+                    resolve(message);
+               }
+          }).catch(function (err) {
+               helpers.log(err);
+               reject(err);
+          });
+     });
+};
+
 function queryDatabase(query) {
      return new Promise(function (resolve, reject) {
           pool.connect(function (err, client, done) {
@@ -109,3 +151,4 @@ module.exports.addSubscription = addSubscription;
 module.exports.addTotalRevenue = addTotalRevenue;
 module.exports.deleteUser = deleteUser;
 module.exports.getTotalRevenue = getTotalRevenue;
+module.exports.getSubscriptions = getSubscriptions;

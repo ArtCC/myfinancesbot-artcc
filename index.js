@@ -15,15 +15,16 @@ bot.onText(/^\/acciones/, (msg) => {
      let languageCode = msg.from.language_code;
      let chatId = msg.chat.id;
 
-     var buttonData = []
-     buttonData.push({
+     var buttonData = [[{
           text: localization.getText("totalRevenueOptionText", languageCode),
           callback_data: localization.getText("totalRevenueOptionText", languageCode)
-     });
-     buttonData.push({
+     }], [{
+          text: localization.getText("subscriptionsOptionText", languageCode),
+          callback_data: localization.getText("subscriptionsOptionText", languageCode)
+     }], [{
           text: localization.getText("cancelText", languageCode),
           callback_data: localization.getText("cancelText", languageCode)
-     });
+     }]]
 
      let buttons = {
           reply_markup: {
@@ -41,12 +42,23 @@ bot.onText(/^\/borrar/, (msg) => {
      let chatId = msg.chat.id;
      let userId = msg.from.id;
 
-     database.deleteUser(userId, languageCode).then(function (message) {
-          bot.sendMessage(chatId, message);
-     }).catch(function (err) {
-          helpers.log(err);
-          sendErrorMessageToBot(chatId, languageCode);
-     });
+     var buttonData = [[{
+          text: localization.getText("deleteYesText", languageCode),
+          callback_data: localization.getText("deleteYesText", languageCode)
+     }], [{
+          text: localization.getText("cancelText", languageCode),
+          callback_data: localization.getText("cancelText", languageCode)
+     }]]
+
+     let buttons = {
+          reply_markup: {
+               inline_keyboard: [
+                    buttonData
+               ]
+          }
+     }
+
+     bot.sendMessage(chatId, localization.getText("deleteTitleText", languageCode), buttons);
 });
 
 bot.onText(/^\/donar/, (msg) => {
@@ -54,26 +66,21 @@ bot.onText(/^\/donar/, (msg) => {
      let chatId = msg.chat.id;
      let buttons = {
           reply_markup: {
-               inline_keyboard: [
-                    [
-                         {
-                              text: localization.getText("oneCoinText", languageCode),
-                              callback_data: localization.getText("oneCoinText", languageCode)
-                         },
-                         {
-                              text: localization.getText("threeCoinText", languageCode),
-                              callback_data: localization.getText("threeCoinText", languageCode)
-                         },
-                         {
-                              text: localization.getText("fiveCoinText", languageCode),
-                              callback_data: localization.getText("fiveCoinText", languageCode)
-                         },
-                         {
-                              text: localization.getText("cancelText", languageCode),
-                              callback_data: localization.getText("cancelText", languageCode)
-                         }
-                    ]
-               ]
+               inline_keyboard: [[{
+                    text: localization.getText("oneCoinText", languageCode),
+                    callback_data: localization.getText("oneCoinText", languageCode)
+               },
+               {
+                    text: localization.getText("threeCoinText", languageCode),
+                    callback_data: localization.getText("threeCoinText", languageCode)
+               },
+               {
+                    text: localization.getText("fiveCoinText", languageCode),
+                    callback_data: localization.getText("fiveCoinText", languageCode)
+               }], [{
+                    text: localization.getText("cancelText", languageCode),
+                    callback_data: localization.getText("cancelText", languageCode)
+               }]]
           }
      };
 
@@ -142,6 +149,20 @@ bot.on('callback_query', function onCallbackQuery(action) {
           paymentWithAmount(chatId, 300, languageCode);
      } else if (data == localization.getText("fiveCoinText", languageCode)) {
           paymentWithAmount(chatId, 500, languageCode);
+     } else if (data == localization.getText("deleteYesText", languageCode)) {
+          database.deleteUser(userId, languageCode).then(function (message) {
+               bot.sendMessage(chatId, message);
+          }).catch(function (err) {
+               helpers.log(err);
+               sendErrorMessageToBot(chatId, languageCode);
+          });
+     } else if (data == localization.getText("subscriptionsOptionText", languageCode)) {
+          database.getSubscriptions(userId, languageCode).then(function (message) {
+               bot.sendMessage(chatId, message, { parse_mode: constants.parseMode });
+          }).catch(function (err) {
+               helpers.log(err);
+               sendErrorMessageToBot(chatId, languageCode);
+          });
      }
 });
 
@@ -200,6 +221,5 @@ function sendInfo(chatId, name, languageCode) {
      });
 };
 
-/**
 cron.schedule('* * * * *', () => {
-}); */
+});
