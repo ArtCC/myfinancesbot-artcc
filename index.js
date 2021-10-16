@@ -275,4 +275,13 @@ cron.schedule('* * * * *', () => {
 
      if (time === constants.morningNotification) {
      }
+
+     if (time == "20:27") {
+          helpers.log(time);
+          database.getAllSubscriptions().then(function (result) {
+               helpers.log(result);
+          }).catch(function (err) {
+               helpers.log(err);
+          });
+     }
 });

@@ -110,6 +110,34 @@ function getTotalRevenue(userId, languageCode) {
      });
 };
 
+function getAllSubscriptions() {
+     return new Promise(function (resolve, reject) {
+          let selectQuery = `select * from subscriptions;`
+
+          queryDatabase(selectQuery).then(function (result) {
+               var subscriptions = [];
+               for (let row of result.rows) {
+                    let json = JSON.stringify(row);
+                    let obj = JSON.parse(json);
+                    let subscription = {
+                         subscriptionId: obj.id,
+                         userId: obj.user_id,
+                         chatId: obj.chat_id,
+                         name: obj.name,
+                         price: obj.price,
+                         type: obj.type,
+                         date: obj.date
+                    };
+                    subscriptions.push(subscription);
+               }
+               resolve(subscriptions);
+          }).catch(function (err) {
+               helpers.log(err);
+               reject(err);
+          });
+     });
+};
+
 function getSubscriptions(userId, languageCode, forDelete) {
      return new Promise(function (resolve, reject) {
           let selectQuery = `select * from subscriptions where user_id = ${userId};`
@@ -191,5 +219,6 @@ module.exports.addSubscription = addSubscription;
 module.exports.addTotalRevenue = addTotalRevenue;
 module.exports.deleteSubscription = deleteSubscription;
 module.exports.deleteUser = deleteUser;
+module.exports.getAllSubscriptions = getAllSubscriptions;
 module.exports.getTotalRevenue = getTotalRevenue;
 module.exports.getSubscriptions = getSubscriptions;
