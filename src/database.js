@@ -17,7 +17,8 @@ function addSubscription(userId, name, price, type, date, languageCode) {
 
           queryDatabase(insertQuery).then(function (result) {
                helpers.log(result);
-               resolve(util.format(localization.getText("addSubscriptionText", languageCode), type, name, price));
+               let message = util.format(localization.getText("addSubscriptionText", languageCode), type, name, price);
+               resolve(message);
           }).catch(function (err) {
                helpers.log(err);
                reject(err);
@@ -47,6 +48,20 @@ function addTotalRevenue(userId, name, revenue, languageCode) {
      });
 };
 
+function deleteSubscription(userId, subscriptionId, languageCode) {
+     return new Promise(function (resolve, reject) {
+          let deleteQuery = `delete from subscriptions where id = ${subscriptionId} and user_id = ${userId};`;
+
+          queryDatabase(deleteQuery).then(function (result) {
+               helpers.log(result);
+               resolve(localization.getText("deleteSubscriptionOkText", languageCode));
+          }).catch(function (err) {
+               helpers.log(err);
+               reject(err);
+          });
+     });
+};
+
 function deleteUser(userId, languageCode) {
      return new Promise(function (resolve, reject) {
           let deleteUserQuery = `delete from users where id = ${userId};`;
@@ -63,7 +78,6 @@ function deleteUser(userId, languageCode) {
                     helpers.log(err);
                     reject(err);
                });
-
           }).catch(function (err) {
                helpers.log(err);
                reject(err);
@@ -175,6 +189,7 @@ function queryDatabase(query) {
 
 module.exports.addSubscription = addSubscription;
 module.exports.addTotalRevenue = addTotalRevenue;
+module.exports.deleteSubscription = deleteSubscription;
 module.exports.deleteUser = deleteUser;
 module.exports.getTotalRevenue = getTotalRevenue;
 module.exports.getSubscriptions = getSubscriptions;

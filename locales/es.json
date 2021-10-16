@@ -21,13 +21,15 @@
     "oneCoinText": "1 €",
     "threeCoinText": "3 €",
     "fiveCoinText": "5 €",
-    "addSubscriptionText": "Tu suscripción %s a %s por %s € ha sido añadida correctamente",
+    "addSubscriptionText": "Tu suscripción %s a %s por %s € ha sido añadida correctamente.\n\nPuedes eliminar una suscripción que hayas añadido anteriormente con /suscripcion borrar",
     "deleteTitleText": "¿Seguro que quieres eliminar todos tus datos? No se pueden recuperar",
     "deleteYesText": "Sí, seguro",
     "subscriptionsOptionText": "Suscripciones",
-    "zeroSubscriptionsText": "No tienes ninguna suscripción añadida actualmente. Puedes añadirla con /suscripcion netflix 16.99 mensual 01/12/2021",
+    "zeroSubscriptionsText": "No tienes ninguna suscripción añadida actualmente. Puedes añadirla con /suscripcion netflix 17.99 mensual 01/12/2021",
     "AllSubscriptionsText": "Estas son todas las sucripciones que tienes añadidas actualmente:\n\n",
     "deleteCommandText": "borrar",
     "deleteSubscriptionButtonsTitle": "¿Qué suscripción quieres borrar?",
-    "subscriptionPreData": "subscription."
+    "subscriptionPreData": "subscription.",
+    "donateOptionText": "Donar",
+    "deleteSubscriptionOkText": "La suscripción ha sido eliminada correctamente."
 }

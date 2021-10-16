@@ -18,6 +18,7 @@ bot.onText(/^\/acciones/, (msg) => {
 
      let moneyEmoji = emoji.get('euro');
      let listEmoji = emoji.get('spiral_calendar_pad');
+     let heartEmoji = emoji.get('heart');
 
      var buttonData = [[{
           text: `${moneyEmoji} ${localization.getText("totalRevenueOptionText", languageCode)}`,
@@ -25,6 +26,9 @@ bot.onText(/^\/acciones/, (msg) => {
      }], [{
           text: `${listEmoji} ${localization.getText("subscriptionsOptionText", languageCode)}`,
           callback_data: localization.getText("subscriptionsOptionText", languageCode)
+     }], [{
+          text: `${heartEmoji} ${localization.getText("donateOptionText", languageCode)}`,
+          callback_data: localization.getText("donateOptionText", languageCode)
      }], [{
           text: localization.getText("cancelText", languageCode),
           callback_data: localization.getText("cancelText", languageCode)
@@ -63,27 +67,8 @@ bot.onText(/^\/borrar/, (msg) => {
 bot.onText(/^\/donar/, (msg) => {
      let languageCode = msg.from.language_code;
      let chatId = msg.chat.id;
-     let buttons = {
-          reply_markup: {
-               inline_keyboard: [[{
-                    text: localization.getText("oneCoinText", languageCode),
-                    callback_data: localization.getText("oneCoinText", languageCode)
-               },
-               {
-                    text: localization.getText("threeCoinText", languageCode),
-                    callback_data: localization.getText("threeCoinText", languageCode)
-               },
-               {
-                    text: localization.getText("fiveCoinText", languageCode),
-                    callback_data: localization.getText("fiveCoinText", languageCode)
-               }], [{
-                    text: localization.getText("cancelText", languageCode),
-                    callback_data: localization.getText("cancelText", languageCode)
-               }]]
-          }
-     };
 
-     bot.sendMessage(chatId, localization.getText("coinPaymentTitleText", languageCode), buttons);
+     donate(chatId, languageCode);
 });
 
 bot.onText(/^\/ingresos (.+)/, (msg, match) => {
@@ -183,9 +168,16 @@ bot.on('callback_query', function onCallbackQuery(action) {
                sendErrorMessageToBot(chatId, languageCode);
           });
      } else if (data.indexOf(localization.getText("subscriptionPreData", languageCode)) > -1) {
-          let dataClean = data.replace(localization.getText("subscriptionPreData", languageCode), "");
-          
-          helpers.log(dataClean);
+          let subscriptionId = data.replace(localization.getText("subscriptionPreData", languageCode), "");
+
+          database.deleteSubscription(userId, subscriptionId, languageCode).then(function (message) {
+               bot.sendMessage(chatId, message);
+          }).catch(function (err) {
+               helpers.log(err);
+               sendErrorMessageToBot(chatId, languageCode);
+          });
+     } else if (data == localization.getText("donateOptionText", languageCode)) {
+          donate(chatId, languageCode);
      }
 });
 
@@ -202,6 +194,30 @@ bot.on('shipping_query', function onCallbackQuery(result) {
 bot.on('successful_payment', function onCallbackQuery(result) {
      helpers.log(result)
 });
+
+function donate(chatId, languageCode) {
+     let buttons = {
+          reply_markup: {
+               inline_keyboard: [[{
+                    text: localization.getText("oneCoinText", languageCode),
+                    callback_data: localization.getText("oneCoinText", languageCode)
+               },
+               {
+                    text: localization.getText("threeCoinText", languageCode),
+                    callback_data: localization.getText("threeCoinText", languageCode)
+               },
+               {
+                    text: localization.getText("fiveCoinText", languageCode),
+                    callback_data: localization.getText("fiveCoinText", languageCode)
+               }], [{
+                    text: localization.getText("cancelText", languageCode),
+                    callback_data: localization.getText("cancelText", languageCode)
+               }]]
+          }
+     };
+
+     bot.sendMessage(chatId, localization.getText("coinPaymentTitleText", languageCode), buttons);
+};
 
 function paymentWithAmount(chatId, amount, languageCode) {
      let title = localization.getText("paymentTitleText", languageCode);

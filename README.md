@@ -6,12 +6,12 @@
 
 <p><strong>Commands in Spanish language to use the bot:</p></strong>
 
-<p>acciones - Elige una de las opciones para recibir información sobre tus finanzas</p>
+<p>acciones - Elige una de las opciones para recibir información</p>
 <p>borrar - Elimino todos tus datos. No podrás recuperarlos</p>
 <p>donar - Puedes apoyar económicamente el proyecto. ¡Gracias!</p>
 <p>ingresos - Añade o actualiza tus ingresos totales. Ej: /ingresos 1550.50</p>
-<p>start - Te muestro información básica</p>
-<p>suscripcion - Añade una suscripción mensual o anual que tengas contratada. Ej: /suscripcion netflix 16.99 mensual 01/12/2021</p>
+<p>start - Te muestro información básica sobre mi funcionamiento</p>
+<p>suscripcion - Añade una suscripción que tengas contratada. Ej: /suscripcion netflix 17.99 mensual 01/01/2021</p>
 
 ### Database in Heroku Postgres:
 
