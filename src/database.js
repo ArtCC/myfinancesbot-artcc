@@ -119,6 +119,8 @@ function getSubscriptions(userId, languageCode, forDelete) {
 
                     if (forDelete) {
                          var buttonData = []
+
+                         let sortedSubscriptions = subscriptions.sort((a, b) => (a.name > b.name) ? 1 : -1);
                          sortedSubscriptions.forEach(sub => {
                               let nameText = helpers.capitalizeFirstLetter(sub.name);
                               let callbackData = localization.getText("subscriptionPreData", languageCode);
@@ -133,7 +135,7 @@ function getSubscriptions(userId, languageCode, forDelete) {
                     } else {
                          var message = util.format(localization.getText("AllSubscriptionsText", languageCode));
 
-                         let sortedSubscriptions = subscriptions.sort((a, b) => (b.price > a.price) ? 1 : -1)
+                         let sortedSubscriptions = subscriptions.sort((a, b) => (b.price > a.price) ? 1 : -1);
                          sortedSubscriptions.forEach(sub => {
                               let name = helpers.capitalizeFirstLetter(sub.name);
                               let price = helpers.formatterAmount(2, 2).format(sub.price);
