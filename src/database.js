@@ -104,13 +104,14 @@ function getSubscriptions(userId, languageCode) {
                if (result.rows.length == 0) {
                     resolve(localization.getText("zeroSubscriptionsText", languageCode));
                } else {
-                    helpers.log(result.rows);
-
                     var message = util.format(localization.getText("AllSubscriptionsText", languageCode));
 
                     for (let row of result.rows) {
                          let json = JSON.stringify(row);
                          let obj = JSON.parse(json);
+
+                         helpers.log(obj);
+
                          let subscription = {
                               name: obj.name,
                               price: obj.price,
