@@ -116,7 +116,7 @@ function getSubscriptions(userId, languageCode) {
                               date: obj.date
                          };
 
-                         message += `<b>${subscription.name}:</b> ${helpers.formatterAmount(2, 2).format(price.amount)} € - ${subscription.type} - ${subscription.date}`;
+                         message += `<b>${subscription.name}:</b> ${helpers.formatterAmount(2, 2).format(subscription.price)} € - ${subscription.type} - ${subscription.date}`;
                     }
 
                     resolve(message);
