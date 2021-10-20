@@ -263,7 +263,7 @@ function sendInfo(chatId, name, languageCode) {
 
 function time() {
      let date = new Date();
-     let hour = date.getHours() + 2;
+     let hour = date.getHours();
      let minutes = date.getMinutes();
 
      var time;
