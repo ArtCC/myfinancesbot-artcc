@@ -7,6 +7,7 @@ const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, {
 const constants = require('./src/constants');
 const cron = require('node-cron');
 const database = require('./src/database');
+const emoji = require('node-emoji');
 const helpers = require('./src/helpers');
 const localization = require('./src/localization');
 const moment = require('moment');
