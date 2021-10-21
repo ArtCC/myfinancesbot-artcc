@@ -245,8 +245,14 @@ function getUserDataSummary(userId, languageCode) {
 
                     let title = `${util.format(localization.getText("resumeTitle", languageCode), helpers.formatterAmount(2, 2).format(totalRevenue))} €`;
                     let message = "";
-                    let labels = [localization.getText("resumeAvailableTitle", languageCode), localization.getText("resumeSubscriptionsTitle", languageCode)];
-                    let data = [totalRevenue, totalSubscriptions];
+                    let labels = [
+                         localization.getText("resumeAvailableTitle", languageCode),
+                         localization.getText("resumeSubscriptionsTitle", languageCode)
+                    ];
+                    let data = [
+                         helpers.formatterAmount(2, 2).format(totalRevenue),
+                         helpers.formatterAmount(2, 2).format(totalSubscriptions)
+                    ];
 
                     charts.createChartForTotalWallet(title, message, labels, data).then(function (response) {
                          resolve(response);
