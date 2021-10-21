@@ -216,8 +216,8 @@ bot.on('callback_query', function onCallbackQuery(action) {
      } else if (data == localization.getText("donateOptionText", languageCode)) {
           donate(chatId, languageCode);
      } else if (data == localization.getText("resumeFinancesOptionText", languageCode)) {
-          database.getUserDataSummary(userId, languageCode).then(function (result) {
-               helpers.log(result);
+          database.getUserDataSummary(userId, languageCode).then(function (response) {
+               helpers.log(response);
                bot.sendPhoto(chatId, response.urlChart).then(function (result) {
                     helpers.log(result);
                }).catch(function (err) {
