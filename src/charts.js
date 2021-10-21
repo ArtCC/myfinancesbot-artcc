@@ -1,6 +1,6 @@
 const QuickChart = require('quickchart-js');
 
-function createChartForTotalWallet(message, labels, data) {
+function createChartForTotalWallet(title, message, labels, data) {
     return new Promise(function (resolve, reject) {
         let myChart = new QuickChart();
         myChart
@@ -25,7 +25,7 @@ function createChartForTotalWallet(message, labels, data) {
                         },
                         doughnutlabel: {
                             labels: [{
-                                text: "Total: 1.700",
+                                text: title,
                                 font: {
                                     size: 16,
                                     weight: 'bold'

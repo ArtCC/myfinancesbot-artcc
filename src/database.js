@@ -243,11 +243,12 @@ function getUserDataSummary(userId, languageCode) {
                          totalSubscriptions += subscription.price;
                     });
 
-                    let message = `Ingresos totales: ${helpers.formatterAmount(2, 2).format(totalRevenue)} €`;
-                    let labels = ["Disponible neto mensual", "Suscripciones"];
+                    let title = `${util.format(localization.getText("resumeTitle", languageCode), helpers.formatterAmount(2, 2).format(totalRevenue))} €`;
+                    let message = "";
+                    let labels = [localization.getText("resumeAvailableTitle", languageCode), localization.getText("resumeSubscriptionsTitle", languageCode)];
                     let data = [totalRevenue, totalSubscriptions];
 
-                    charts.createChartForTotalWallet(message, labels, data).then(function (response) {
+                    charts.createChartForTotalWallet(title, message, labels, data).then(function (response) {
                          resolve(response);
                     }).catch(function (err) {
                          helpers.log(err);

@@ -47,5 +47,8 @@
     "subscriptionCommandTitle": "suscripcion",
     "subscriptionCommand": "Añade una suscripción que tengas contratada. Ej: /suscripcion netflix 17.99 mensual 01-01-2021",
     "tokenError": "El token es incorrecto.",
-    "resumeFinancesOptionText": "Información sobre mis finanzas"
+    "resumeFinancesOptionText": "Información sobre mis finanzas",
+    "resumeTitle": "Ingresos totales: %s",
+    "resumeAvailableTitle": "Disponible neto mensual",
+    "resumeSubscriptionsTitle": "Suscripciones"
 }

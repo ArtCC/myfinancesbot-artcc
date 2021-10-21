@@ -218,6 +218,12 @@ bot.on('callback_query', function onCallbackQuery(action) {
      } else if (data == localization.getText("resumeFinancesOptionText", languageCode)) {
           database.getUserDataSummary(userId, languageCode).then(function (result) {
                helpers.log(result);
+               bot.sendPhoto(chatId, response.urlChart).then(function (result) {
+                    helpers.log(result);
+               }).catch(function (err) {
+                    helpers.log(err);
+                    sendErrorMessageToBot(chatId, languageCode);
+               });
           }).catch(function (err) {
                helpers.log(err);
                sendErrorMessageToBot(chatId, languageCode);
