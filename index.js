@@ -11,6 +11,7 @@ const emoji = require('node-emoji');
 const helpers = require('./src/helpers');
 const localization = require('./src/localization');
 const moment = require('moment');
+const updateToken = process.env.UPDATE_TOKEN;
 const util = require('util');
 
 bot.onText(/^\/acciones/, (msg) => {
@@ -90,9 +91,18 @@ bot.onText(/^\/ingresos (.+)/, (msg, match) => {
 bot.onText(/^\/start/, (msg) => {
      let languageCode = msg.from.language_code;
      let chatId = msg.chat.id;
-     let name = msg.from.first_name;
+     let userName = msg.from.first_name;
 
-     sendInfo(chatId, name, languageCode);
+     database.setChatIdForUpdate(chatId, languageCode).then(function (result) {
+          helpers.log(result);
+     }).catch(function (err) {
+          helpers.log(err);
+     });
+
+     bot.setMyCommands(helpers.getCommands(languageCode)).then(function (info) {
+          helpers.log(info);
+          sendInfo(chatId, userName, languageCode);
+     });;
 });
 
 bot.onText(/^\/suscripcion (.+)/, (msg, match) => {

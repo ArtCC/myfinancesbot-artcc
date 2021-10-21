@@ -215,6 +215,20 @@ function queryDatabase(query) {
      });
 };
 
+function setChatIdForUpdate(chatId, languageCode) {
+     return new Promise(function (resolve, reject) {
+          let insertQuery = `insert into update (chat_id) values (${chatId});`;
+
+          queryDatabase(insertQuery).then(function (result) {
+               helpers.log(result);
+               resolve(localization.getText("success", languageCode));
+          }).catch(function (err) {
+               helpers.log(err);
+               reject(err);
+          });
+     });
+};
+
 module.exports.addSubscription = addSubscription;
 module.exports.addTotalRevenue = addTotalRevenue;
 module.exports.deleteSubscription = deleteSubscription;
@@ -222,3 +236,4 @@ module.exports.deleteUser = deleteUser;
 module.exports.getAllSubscriptions = getAllSubscriptions;
 module.exports.getTotalRevenue = getTotalRevenue;
 module.exports.getSubscriptions = getSubscriptions;
+module.exports.setChatIdForUpdate = setChatIdForUpdate;
