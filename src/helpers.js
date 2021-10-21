@@ -1,3 +1,5 @@
+const localization = require('./src/localization');
+
 function formatterAmount(minimum, maximum) {
     const formatter = new Intl.NumberFormat('de-DE', {
         minimumFractionDigits: minimum,

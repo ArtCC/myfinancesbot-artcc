@@ -44,5 +44,6 @@
     "startCommandTitle": "start",
     "startCommand": "Te muestro información básica sobre mi funcionamiento",
     "subscriptionCommandTitle": "suscripcion",
-    "subscriptionCommand": "Añade una suscripción que tengas contratada. Ej: /suscripcion netflix 17.99 mensual 01-01-2021"
+    "subscriptionCommand": "Añade una suscripción que tengas contratada. Ej: /suscripcion netflix 17.99 mensual 01-01-2021",
+    "tokenError": "El token es incorrecto."
 }

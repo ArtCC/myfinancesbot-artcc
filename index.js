@@ -145,6 +145,25 @@ bot.onText(/^\/suscripcion (.+)/, (msg, match) => {
      }
 });
 
+bot.onText(/^\/update (.+)/, (msg, match) => {
+     let languageCode = msg.from.language_code;
+     let data = match[1].split("-");
+     let token = data[0];
+     let message = data[1];
+
+     if (token == updateToken) {
+          database.getAllChatId().then(function (collection) {
+               collection.forEach(chatId => {
+                    bot.sendMessage(chatId, message);
+               });
+          }).catch(function (err) {
+               helpers.log(err);
+          });
+     } else {
+          helpers.log(localization.getText("tokenError", languageCode));
+     }
+});
+
 bot.on('callback_query', function onCallbackQuery(action) {
      let languageCode = action.from.language_code;
      let chatId = action.message.chat.id;
