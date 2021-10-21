@@ -123,7 +123,7 @@ bot.onText(/^\/suscripcion (.+)/, (msg, match) => {
      let suscriptionDate = data[3];
 
      if (suscriptionName == localization.getText("deleteCommandText", languageCode)) {
-          database.getSubscriptions(userId, languageCode, true).then(function (buttonData) {
+          database.getSubscriptions(userId, languageCode, true, false).then(function (buttonData) {
                let buttons = {
                     reply_markup: {
                          inline_keyboard: buttonData
@@ -176,7 +176,7 @@ bot.on('callback_query', function onCallbackQuery(action) {
      let data = action.data;
 
      if (data == localization.getText("totalRevenueOptionText", languageCode)) {
-          database.getTotalRevenue(userId, languageCode).then(function (message) {
+          database.getTotalRevenue(userId, languageCode, false).then(function (message) {
                bot.sendMessage(chatId, message);
           }).catch(function (err) {
                helpers.log(err);
@@ -198,7 +198,7 @@ bot.on('callback_query', function onCallbackQuery(action) {
                sendErrorMessageToBot(chatId, languageCode);
           });
      } else if (data == localization.getText("subscriptionsOptionText", languageCode)) {
-          database.getSubscriptions(userId, languageCode, false).then(function (message) {
+          database.getSubscriptions(userId, languageCode, false, false).then(function (message) {
                bot.sendMessage(chatId, message, { parse_mode: constants.parseMode });
           }).catch(function (err) {
                helpers.log(err);
@@ -216,7 +216,12 @@ bot.on('callback_query', function onCallbackQuery(action) {
      } else if (data == localization.getText("donateOptionText", languageCode)) {
           donate(chatId, languageCode);
      } else if (data == localization.getText("resumeFinancesOptionText", languageCode)) {
-          helpers.log("Resumen de finanzas");
+          database.getUserDataSummary(userId, languageCode).then(function (result) {
+               helpers.log(result);
+          }).catch(function (err) {
+               helpers.log(err);
+               sendErrorMessageToBot(chatId, languageCode);
+          });
      }
 });
 

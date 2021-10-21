@@ -85,31 +85,6 @@ function deleteUser(userId, languageCode) {
      });
 };
 
-function getTotalRevenue(userId, languageCode) {
-     return new Promise(function (resolve, reject) {
-          let selectQuery = `select revenue from users where user_id = '${userId}';`
-
-          queryDatabase(selectQuery).then(function (result) {
-               if (result.rows.length == 0) {
-                    resolve(localization.getText("zeroRevenueText", languageCode));
-               } else {
-                    let json = JSON.stringify(result.rows[0]);
-                    let obj = JSON.parse(json);
-                    let revenue = {
-                         amount: obj.revenue
-                    };
-
-                    let total = util.format(localization.getText("totalRevenueText", languageCode), helpers.formatterAmount(2, 2).format(revenue.amount));
-
-                    resolve(total);
-               }
-          }).catch(function (err) {
-               helpers.log(err);
-               reject(err);
-          });
-     });
-};
-
 function getAllChatId() {
      return new Promise(function (resolve, reject) {
           let selectQuery = "select * from update;";
@@ -160,9 +135,15 @@ function getAllSubscriptions() {
      });
 };
 
-function getSubscriptions(userId, languageCode, forDelete) {
+function getSubscriptions(userId, languageCode, forDelete, forResume) {
      return new Promise(function (resolve, reject) {
-          let selectQuery = `select * from subscriptions where user_id = ${userId};`
+          var selectQuery = "";
+
+          if (forResume) {
+               selectQuery = `select * from subscriptions where user_id = ${userId} and type = 'mensual';`
+          } else {
+               selectQuery = `select * from subscriptions where user_id = ${userId};`
+          }
 
           queryDatabase(selectQuery).then(function (result) {
                if (result.rows.length == 0) {
@@ -197,6 +178,8 @@ function getSubscriptions(userId, languageCode, forDelete) {
                          }]);
 
                          resolve(buttonData);
+                    } else if (forResume) {
+                         resolve(subscriptions);
                     } else {
                          var message = util.format(localization.getText("AllSubscriptionsText", languageCode));
 
@@ -211,6 +194,60 @@ function getSubscriptions(userId, languageCode, forDelete) {
                          resolve(message);
                     }
                }
+          }).catch(function (err) {
+               helpers.log(err);
+               reject(err);
+          });
+     });
+};
+
+function getTotalRevenue(userId, languageCode, forResume) {
+     return new Promise(function (resolve, reject) {
+          let selectQuery = `select revenue from users where user_id = '${userId}';`
+
+          queryDatabase(selectQuery).then(function (result) {
+               if (result.rows.length == 0) {
+                    resolve(localization.getText("zeroRevenueText", languageCode));
+               } else {
+                    let json = JSON.stringify(result.rows[0]);
+                    let obj = JSON.parse(json);
+                    let revenue = {
+                         amount: obj.revenue
+                    };
+
+                    if (forResume) {
+                         resolve(revenue.amount);
+                    } else {
+                         let total = util.format(localization.getText("totalRevenueText", languageCode), helpers.formatterAmount(2, 2).format(revenue.amount));
+
+                         resolve(total);
+                    }
+               }
+          }).catch(function (err) {
+               helpers.log(err);
+               reject(err);
+          });
+     });
+};
+
+function getUserDataSummary(userId, languageCode) {
+     return new Promise(function (resolve, reject) {
+          var totalRevenue = 0;
+          var subscriptions = [];
+          getTotalRevenue(userId, languageCode, false).then(function (result) {
+               totalRevenue = result;
+
+               getSubscriptions(userId, languageCode, false, true).then(function (result) {
+                    subscriptions = result;
+
+                    helpers.log(totalRevenue);
+                    helpers.log(subscriptions);
+
+                    resolve("OK");
+               }).catch(function (err) {
+                    helpers.log(err);
+                    reject(err);
+               });
           }).catch(function (err) {
                helpers.log(err);
                reject(err);
@@ -259,4 +296,5 @@ module.exports.getAllChatId = getAllChatId;
 module.exports.getAllSubscriptions = getAllSubscriptions;
 module.exports.getTotalRevenue = getTotalRevenue;
 module.exports.getSubscriptions = getSubscriptions;
+module.exports.getUserDataSummary = getUserDataSummary;
 module.exports.setChatIdForUpdate = setChatIdForUpdate;
