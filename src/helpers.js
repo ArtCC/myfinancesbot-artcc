@@ -1,4 +1,4 @@
-const localization = require('./src/localization');
+const localization = require('./localization');
 
 function formatterAmount(minimum, maximum) {
     const formatter = new Intl.NumberFormat('de-DE', {
