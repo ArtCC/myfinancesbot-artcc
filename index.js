@@ -102,7 +102,9 @@ bot.onText(/^\/start/, (msg) => {
      bot.setMyCommands(helpers.getCommands(languageCode)).then(function (info) {
           helpers.log(info);
           sendInfo(chatId, userName, languageCode);
-     });;
+     }).catch(function (err) {
+          helpers.log(err);
+     });
 });
 
 bot.onText(/^\/suscripcion (.+)/, (msg, match) => {
