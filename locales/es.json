@@ -1,4 +1,5 @@
 {
+    "warningMessageText": "Este bot está actualmente en desarrollo. Se irán añadiendo nuevas funcionalidades poco a poco y cuando esté terminado se notificará mediante mensaje general a todos los usuarios del mismo. ¡Gracias!\n\n",
     "sendInfoText": "¡Hola %s!",
     "helloMessageText": "\n\nEscribe la barra / para ver en qué te puedo ayudar.\n\nMás información: https://github.com/ArtCC/myfinancesbot-artcc\n\n",
     "revenueUpdateText": "Tus ingresos totales han sido actualizados correctamente.",
@@ -45,5 +46,6 @@
     "startCommand": "Te muestro información básica sobre mi funcionamiento",
     "subscriptionCommandTitle": "suscripcion",
     "subscriptionCommand": "Añade una suscripción que tengas contratada. Ej: /suscripcion netflix 17.99 mensual 01-01-2021",
-    "tokenError": "El token es incorrecto."
+    "tokenError": "El token es incorrecto.",
+    "resumeFinancesOptionText": "Información sobre mis finanzas"
 }

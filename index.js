@@ -18,11 +18,16 @@ bot.onText(/^\/acciones/, (msg) => {
      let languageCode = msg.from.language_code;
      let chatId = msg.chat.id;
 
+     let chartEmoji = emoji.get('bar_chart');
      let moneyEmoji = emoji.get('euro');
      let listEmoji = emoji.get('spiral_calendar_pad');
      let heartEmoji = emoji.get('heart');
 
      var buttonData = [[{
+          text: `${chartEmoji} ${localization.getText("resumeFinancesOptionText", languageCode)}`,
+          callback_data: localization.getText("resumeFinancesOptionText", languageCode)
+     }],
+     [{
           text: `${moneyEmoji} ${localization.getText("totalRevenueOptionText", languageCode)}`,
           callback_data: localization.getText("totalRevenueOptionText", languageCode)
      }], [{
@@ -210,6 +215,8 @@ bot.on('callback_query', function onCallbackQuery(action) {
           });
      } else if (data == localization.getText("donateOptionText", languageCode)) {
           donate(chatId, languageCode);
+     } else if (data == localization.getText("resumeFinancesOptionText", languageCode)) {
+          helpers.log("Resumen de finanzas");
      }
 });
 
@@ -279,9 +286,11 @@ function sendErrorMessageToBot(chatId, languageCode) {
 };
 
 function sendInfo(chatId, name, languageCode) {
+     let warningEmoji = emoji.get('warning');
+     let warningMessage = `${warningEmoji} ${localization.getText("warningMessageText", languageCode)}`;
      let helloText = util.format(localization.getText("sendInfoText", languageCode), name);
      let infoText = localization.getText("helloMessageText", languageCode);
-     var message = `${helloText}${infoText}`;
+     var message = `${warningMessage}${helloText}${infoText}`;
 
      bot.getMyCommands().then(function (info) {
           for (let obj of info) {
