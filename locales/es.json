@@ -47,6 +47,7 @@
     "subscriptionCommandTitle": "suscripcion",
     "subscriptionCommand": "Añade una suscripción que tengas contratada. Ej: /suscripcion netflix 17.99 mensual 01-01-2021",
     "tokenError": "El token es incorrecto.",
+    "resumeMessage": "Según los datos que has introducido sobre tus ingresos, hipotecas, préstamos, financiaciones y suscripciones, este es el gráfico resumen sobre tu situación financiera mensual actual.\nViendo estos datos puedes valorar con más facilidad la cantidad neta total de la que puedes disponer realmente durante el mes.",
     "resumeFinancesOptionText": "Información sobre mis finanzas",
     "resumeTitle": "Ingresos totales: %s",
     "resumeAvailableTitle": "Disponible neto mensual",

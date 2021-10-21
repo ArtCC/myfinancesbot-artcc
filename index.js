@@ -220,6 +220,7 @@ bot.on('callback_query', function onCallbackQuery(action) {
                helpers.log(response);
                bot.sendPhoto(chatId, response.urlChart).then(function (result) {
                     helpers.log(result);
+                    bot.sendMessage(chatId, localization.getText(resumeMessage, languageCode));
                }).catch(function (err) {
                     helpers.log(err);
                     sendErrorMessageToBot(chatId, languageCode);
