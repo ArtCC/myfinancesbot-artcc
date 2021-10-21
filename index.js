@@ -7,7 +7,6 @@ const bot = new TelegramBot(process.env.TELEGRAM_TOKEN, {
 const constants = require('./src/constants');
 const cron = require('node-cron');
 const database = require('./src/database');
-const emoji = require('node-emoji');
 const helpers = require('./src/helpers');
 const localization = require('./src/localization');
 const moment = require('moment');
@@ -18,32 +17,9 @@ bot.onText(/^\/acciones/, (msg) => {
      let languageCode = msg.from.language_code;
      let chatId = msg.chat.id;
 
-     let chartEmoji = emoji.get('bar_chart');
-     let moneyEmoji = emoji.get('euro');
-     let listEmoji = emoji.get('spiral_calendar_pad');
-     let heartEmoji = emoji.get('heart');
-
-     var buttonData = [[{
-          text: `${chartEmoji} ${localization.getText("resumeFinancesOptionText", languageCode)}`,
-          callback_data: localization.getText("resumeFinancesOptionText", languageCode)
-     }],
-     [{
-          text: `${moneyEmoji} ${localization.getText("totalRevenueOptionText", languageCode)}`,
-          callback_data: localization.getText("totalRevenueOptionText", languageCode)
-     }], [{
-          text: `${listEmoji} ${localization.getText("subscriptionsOptionText", languageCode)}`,
-          callback_data: localization.getText("subscriptionsOptionText", languageCode)
-     }], [{
-          text: `${heartEmoji} ${localization.getText("donateOptionText", languageCode)}`,
-          callback_data: localization.getText("donateOptionText", languageCode)
-     }], [{
-          text: localization.getText("cancelText", languageCode),
-          callback_data: localization.getText("cancelText", languageCode)
-     }]]
-
      let buttons = {
           reply_markup: {
-               inline_keyboard: buttonData
+               inline_keyboard: helpers.getActions(languageCode)
           }
      }
 
@@ -54,7 +30,7 @@ bot.onText(/^\/borrar/, (msg) => {
      let languageCode = msg.from.language_code;
      let chatId = msg.chat.id;
 
-     var buttonData = [[{
+     let buttonData = [[{
           text: localization.getText("deleteYesText", languageCode),
           callback_data: localization.getText("deleteYesText", languageCode)
      }], [{
