@@ -249,8 +249,9 @@ function getUserDataSummary(userId, languageCode) {
                          localization.getText("resumeAvailableTitle", languageCode),
                          localization.getText("resumeSubscriptionsTitle", languageCode)
                     ];
+                    let available = totalRevenue.toFixed(2) - totalSubscriptions.toFixed(2);
                     let data = [
-                         totalRevenue.toFixed(2),
+                         available,
                          totalSubscriptions.toFixed(2)
                     ];
 
