@@ -250,8 +250,8 @@ function getUserDataSummary(userId, languageCode) {
                          localization.getText("resumeSubscriptionsTitle", languageCode)
                     ];
                     let data = [
-                         helpers.formatterAmount(2, 2).format(totalRevenue),
-                         helpers.formatterAmount(2, 2).format(totalSubscriptions)
+                         totalRevenue.toFixed(2),
+                         totalSubscriptions.toFixed(2)
                     ];
 
                     charts.createChartForTotalWallet(title, message, labels, data).then(function (response) {
