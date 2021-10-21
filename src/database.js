@@ -1,4 +1,5 @@
 const axios = require('axios');
+const charts = require('./charts');
 const constants = require('./constants');
 const helpers = require('./helpers');
 const localization = require('./localization');
@@ -233,17 +234,25 @@ function getTotalRevenue(userId, languageCode, forResume) {
 function getUserDataSummary(userId, languageCode) {
      return new Promise(function (resolve, reject) {
           var totalRevenue = 0;
-          var subscriptions = [];
-          getTotalRevenue(userId, languageCode, false).then(function (result) {
-               totalRevenue = result;
+          var totalSubscriptions = 0;
+          getTotalRevenue(userId, languageCode, true).then(function (total) {
+               totalRevenue = total;
 
-               getSubscriptions(userId, languageCode, false, true).then(function (result) {
-                    subscriptions = result;
+               getSubscriptions(userId, languageCode, false, true).then(function (subscriptions) {
+                    subscriptions.forEach(subscription => {
+                         totalSubscriptions += subscription.price;
+                    });
 
-                    helpers.log(totalRevenue);
-                    helpers.log(subscriptions);
+                    let message = `Ingresos totales: ${helpers.formatterAmount(2, 2).format(totalRevenue)} €`;
+                    let labels = ["Disponible neto mensual", "Suscripciones"];
+                    let data = [totalRevenue, totalSubscriptions];
 
-                    resolve("OK");
+                    charts.createChartForTotalWallet(message, labels, data).then(function (response) {
+                         resolve(response);
+                    }).catch(function (err) {
+                         helpers.log(err);
+                         reject(err);
+                    });
                }).catch(function (err) {
                     helpers.log(err);
                     reject(err);

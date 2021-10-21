@@ -1,19 +1,15 @@
-const constants = require('./constants');
-const helpers = require('./helpers');
-const localization = require('./localization');
 const QuickChart = require('quickchart-js');
-const util = require('util');
 
-function createChartForTotalWallet(languageCode) {
+function createChartForTotalWallet(message, labels, data) {
     return new Promise(function (resolve, reject) {
         let myChart = new QuickChart();
         myChart
             .setConfig({
                 type: 'doughnut',
                 data: {
-                    labels: ["Data 1", "Data 2", "Data 3"],
+                    labels: labels,
                     datasets: [{
-                        data: [300, 500, 900]
+                        data: data
                     }]
                 },
                 options: {
@@ -44,7 +40,7 @@ function createChartForTotalWallet(languageCode) {
             .setBackgroundColor('transparent');
 
         let response = {
-            message: "Mensaje",
+            message: message,
             urlChart: myChart.getUrl()
         }
 
